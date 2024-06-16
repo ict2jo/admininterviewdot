@@ -1,10 +1,14 @@
 import { Grid } from "@mui/material";
-import Nav from "../nav/page";
 
-export default function Inquiry() {
+import UserList from "@/app/userlist/page";
+import Nav from "@/app/nav/page";
+import AdminList from "@/app/adminlist/page";
+
+export default function AdminPlus() {
     return(
         <>
         <div className="innerwrap">
+        <h1>관리자 생성</h1>
         
         <div className="whiteboard">
             <Grid container>
@@ -15,7 +19,7 @@ export default function Inquiry() {
                 </Grid>
                 <Grid item xs={10}>
                     <div className="maintext">
-                        <h4>여기 가져가서 만드세용</h4>
+                        <AdminList />
                     </div>
                 </Grid>
             </Grid>
