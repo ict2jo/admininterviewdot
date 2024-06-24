@@ -1,21 +1,25 @@
-// UserList 컴포넌트 (userList/page.js)
-import { Container, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from "@mui/material";
+"use client"
 
-// 가상의 유저 데이터
+import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+
+
 const users = [
-    { id: 1, username: 'admin1', email: 'admin1@example.com', role: 'admin1' },
-    { id: 2, username: 'admin2', email: 'admin2@example.com', role: 'admin2' },
-    { id: 3, username: 'admin3', email: 'admin3@example.com', role: 'admin3' },
-    { id: 4, username: 'admin4', email: 'admin4@example.com', role: 'admin4' },
-    { id: 5, username: 'admin5', email: 'admin5@example.com', role: 'admin5' },
-    { id: 6, username: 'admin6', email: 'admin6@example.com', role: 'admin6' },
-    { id: 7, username: 'admin7', email: 'admin7@example.com', role: 'admin7' },
-    { id: 8, username: 'admin8', email: 'admin8@example.com', role: 'admin8' },
-    { id: 9, username: 'admin9', email: 'admin8@example.com', role: 'admin9' },
+    { id: 1, username: 'user1', email: 'user1@example.com', role: 'admin' },
+    { id: 2, username: 'user2', email: 'user2@example.com', role: 'user2' },
+    { id: 3, username: 'user3', email: 'user3@example.com', role: 'user3' },
+    { id: 4, username: 'user4', email: 'user4@example.com', role: 'user4' },
+    { id: 5, username: 'user5', email: 'user5@example.com', role: 'user5' },
 ];
+export default function SuccessList() {
+    const router = useRouter();
 
-export default function QueryList() {
-    return (
+    const handleSuccDetail = () => {
+        router.push("/sidebar/review/success_detail")
+    };
+
+
+    return(
         <>
             <Container>
                 <Typography variant="h4" padding={"10px"} >
@@ -33,7 +37,7 @@ export default function QueryList() {
                         </TableHead>
                         <TableBody>
                             {users.map((user) => (
-                                <TableRow key={user.id}>
+                                <TableRow key={user.id} onClick={handleSuccDetail}>
                                     <TableCell>{user.id}</TableCell>
                                     <TableCell>{user.username}</TableCell>
                                     <TableCell>{user.email}</TableCell>
@@ -45,5 +49,5 @@ export default function QueryList() {
                 </TableContainer>
             </Container>
         </>
-    );
+    )
 }

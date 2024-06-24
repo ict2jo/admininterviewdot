@@ -1,11 +1,6 @@
-"use client"
+import AdminLogin from "./adminlogin/page";
 
-import Inquiry from "./inquiry/page";
 
 export default function Home() {
-  return (
-    <div>
-      <Inquiry />
-    </div>
-  );
+  return <AdminLogin />
 }

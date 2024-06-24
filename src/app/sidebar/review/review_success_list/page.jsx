@@ -1,14 +1,17 @@
-"use client"
+import Nav from "@/app/nav/page";
 import { Grid } from "@mui/material";
 
-import UserList from "@/app/userlist/page";
-import Nav from "@/app/nav/page";
 
-export default function User() {
+
+
+
+
+
+
+export default function Review_Success_List() {
     return(
         <>
         <div className="innerwrap">
-        <h1>유저 관리</h1>
         
         <div className="whiteboard">
             <Grid container>
@@ -19,7 +22,7 @@ export default function User() {
                 </Grid>
                 <Grid item xs={10}>
                     <div className="maintext">
-                        <UserList />
+                        <ReviewDetail />
                     </div>
                 </Grid>
             </Grid>
@@ -27,5 +30,4 @@ export default function User() {
         </div>
         </>
     )
-    
 }

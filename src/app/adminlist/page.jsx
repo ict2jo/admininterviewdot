@@ -12,16 +12,14 @@ const users = [
     { id: 7, username: 'admin7', email: 'admin7@example.com', role: 'admin7' },
     { id: 8, username: 'admin8', email: 'admin8@example.com', role: 'admin8' },
     { id: 9, username: 'admin9', email: 'admin8@example.com', role: 'admin9' },
+    
 ];
 
 export default function AdminList() {
     return (
         <>
             <Container>
-                <Typography variant="h4" padding={"10px"} >
-                    
-                </Typography>
-                <TableContainer component={Paper}>
+                <TableContainer >
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -29,6 +27,7 @@ export default function AdminList() {
                                 <TableCell>관리자명</TableCell>
                                 <TableCell>이메일</TableCell>
                                 <TableCell>역할</TableCell>
+                                <TableCell>등급</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -38,6 +37,7 @@ export default function AdminList() {
                                     <TableCell>{user.username}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>{user.role}</TableCell>
+                                    <TableCell>{user.grade}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

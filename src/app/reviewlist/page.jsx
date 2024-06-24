@@ -1,49 +1,61 @@
-// UserList 컴포넌트 (userList/page.js)
-import { Container, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from "@mui/material";
+"use client"
 
-// 가상의 유저 데이터
-const users = [
-    { id: 1, username: 'user1', email: 'user1@example.com', role: 'admin' },
-    { id: 2, username: 'user2', email: 'user2@example.com', role: 'user2' },
-    { id: 3, username: 'user3', email: 'user3@example.com', role: 'user3' },
-    { id: 4, username: 'user4', email: 'user4@example.com', role: 'user4' },
-    { id: 5, username: 'user5', email: 'user5@example.com', role: 'user5' },
-    { id: 6, username: 'user6', email: 'user6@example.com', role: 'user6' },
-    { id: 7, username: 'user7', email: 'user7@example.com', role: 'user7' },
-    { id: 8, username: 'user8', email: 'user8@example.com', role: 'user8' },
-    { id: 9, username: 'user9', email: 'user8@example.com', role: 'user9' },
-];
+import { Container, Typography, Paper, Grid, Box, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ReviewList() {
+    const [reviewList, setReviewList] = useState([]);
+    const router = useRouter();
+
+    useEffect(() => {
+        async function fetchReviewList() {
+            try {
+                const response = await axios.get("/review/reviewlist");
+                setReviewList(response.data); // 서버에서 받은 데이터를 상태에 저장
+            } catch (error) {
+                console.error('Error fetching review data:', error);
+            }
+        }
+
+        fetchReviewList(); // async 함수 호출
+    }, []); // useEffect의 두 번째 인자에 빈 배열을 전달하여 한 번만 호출되도록 설정
+
+    const handleReviewClick = () =>{
+        router.push("/review_detail_list")
+    }
+
     return (
-        <>
-            <Container>
-                <Typography variant="h4" padding={"10px"} >
-                    
-                </Typography>
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>사용자명</TableCell>
-                                <TableCell>이메일</TableCell>
-                                <TableCell>역할</TableCell>
+        <Container>
+            <Typography variant="h4" padding={"10px"} >
+                면접 후기 게시판
+            </Typography>
+            
+            <Paper>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>작성자</TableCell>
+                            <TableCell>제목</TableCell>
+                            <TableCell>내용</TableCell>
+                            <TableCell>회사</TableCell>
+                            <TableCell>작성일</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {reviewList.map((k) => (
+                            <TableRow key={k.r_idx} onClick={() => handleReviewClick(k.r_idx)}>
+                                <TableCell>{k.r_writer}</TableCell>
+                                <TableCell>{k.r_title}</TableCell>
+                                <TableCell>{k.r_content}</TableCell>
+                                <TableCell>{k.r_company}</TableCell>
+                                <TableCell>{k.r_regdate.substring(0, 10)}</TableCell>
                             </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {users.map((user) => (
-                                <TableRow key={user.id}>
-                                    <TableCell>{user.id}</TableCell>
-                                    <TableCell>{user.username}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Container>
-        </>
+                        ))}
+                    </TableBody>
+                </Table>
+            </Paper>
+        </Container>
     );
 }
