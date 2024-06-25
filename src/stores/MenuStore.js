@@ -2,30 +2,22 @@ import { makeAutoObservable } from "mobx";
 
 
 class MenuStore{
-    selectedMenu = "dashbord" ;  // 선택된 메뉴
-    sidebarOpen = true ;         // 사이드바 열림/닫힘 상태   
+    selectedMenu = "successlist" ;  // 선택된 메뉴
     isAuthenticated = false;     // 사용자 인증상태
     token = null  ;              // 사용자 토큰
     userList = [] ;             // 서버에서 가져온 
     reviewList = [] ;
     adminList = [] ;
     queryList = [] ;
-    /* dashbordList = [] ; */
 
 
     constructor(){
-        // MobX 스토어를 자동으로 관찰 가능하게 설정
         makeAutoObservable(this);
     }
 
     // 메뉴 변경 
     setSelectedMenu(menu){
         this.selectedMenu = menu;
-    }
-
-    // 상단 바 열림/닫힘 변경 (toggle)
-    setSidebarOpen(){
-        this.sidebarOpen = !this.sidebarOpen;
     }
 
     // 인증상태 변경 액션 
@@ -52,21 +44,21 @@ class MenuStore{
     }
 
     
-    setAdminList(adminList){
-        this.adminList = adminList;
-    }
-    setReviewList(reviewList){
-        this.reviewList = reviewList;
-    }
-    setSuccessList(successlist){
-        this.successlist = successlist;
-    }
-    setUserList(userlist){
-        this.userlist = userlist;
-    }
-    setQueryList(querylist){
-        this.querylist = querylist;
-    }
+    // setAdminList(adminList){
+    //     this.adminList = adminList;
+    // }
+    // setReviewList(reviewList){
+    //     this.reviewList = reviewList;
+    // }
+    // setSuccessList(successlist){
+    //     this.successlist = successlist;
+    // }
+    // setUserList(userlist){
+    //     this.userlist = userlist;
+    // }
+    // setQueryList(querylist){
+    //     this.querylist = querylist;
+    // }
 }
 
 const menuStore = new MenuStore(); // 스토어 인스턴스 생성 

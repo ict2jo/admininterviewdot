@@ -23,10 +23,12 @@ export default function ReviewList() {
     }, []); // useEffect의 두 번째 인자에 빈 배열을 전달하여 한 번만 호출되도록 설정
 
     const handleReviewClick = () =>{
-        router.push("/review_detail_list")
+        router.push("/review/review_detail_list")
     }
 
     return (
+        <>
+        
         <Container>
             <Typography variant="h4" padding={"10px"} >
                 면접 후기 게시판
@@ -57,5 +59,6 @@ export default function ReviewList() {
                 </Table>
             </Paper>
         </Container>
+        </>
     );
 }

@@ -5,11 +5,9 @@ import { green } from "@mui/material/colors";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { MenuContext } from "@/stores/StoreContext";
+import authStore from "@/stores/AuthStore";
 
 export default function AdminLogin() {
-
-    const authStore = useContext(MenuContext)
 
     const [admin, setAdmin] = useState({
         a_id: '',
@@ -27,18 +25,18 @@ export default function AdminLogin() {
 
     async function handleLogin(e) {
         try {
-            console.log(admin.a_id)
-            console.log(admin.a_pwd)
+            // console.log(admin.a_id)
+            // console.log(admin.a_pwd)
 
-            const response = await axios.post('/api/adminlogin',{a_id: admin.a_id, a_pwd: admin.a_pwd});    
+            // const response = await axios.post('/api/adminlogin',{a_id: admin.a_id, a_pwd: admin.a_pwd});    
                  
-            console.log("몰르겠다")
-            // token 을 로컬 스토리지에 저장
-            if(response.data.token){
-                authStore.setToken(response.data.token)
-                // 성공 후 메인 페이지로 리다이렉트
+            // console.log("몰르겠다")
+            // // token 을 로컬 스토리지에 저장
+            // if(response.data.token){
+            //     authStore.setToken(response.data.token)
+            //     // 성공 후 메인 페이지로 리다이렉트
                 router.push("/adminmain");
-            }
+            // }
         } catch (error) {
             alert("로그인 실패")
             setAdmin({
