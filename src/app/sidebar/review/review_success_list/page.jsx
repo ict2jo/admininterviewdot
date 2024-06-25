@@ -1,7 +1,14 @@
+import Nav from "@/app/nav/page";
 import { Grid } from "@mui/material";
-import Nav from "../nav/page";
 
-export default function Inquiry() {
+
+
+
+
+
+
+
+export default function Review_Success_List() {
     return(
         <>
         <div className="innerwrap">
@@ -15,7 +22,7 @@ export default function Inquiry() {
                 </Grid>
                 <Grid item xs={10}>
                     <div className="maintext">
-                        <h4>여기 가져가서 만드세용</h4>
+                        <ReviewDetail />
                     </div>
                 </Grid>
             </Grid>
@@ -23,5 +30,4 @@ export default function Inquiry() {
         </div>
         </>
     )
-    
 }

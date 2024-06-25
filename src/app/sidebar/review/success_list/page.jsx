@@ -1,10 +1,12 @@
+import Nav from "@/app/nav/page";
+import SuccessList from "@/app/successlist/page";
 import { Grid } from "@mui/material";
-import Nav from "../nav/page";
 
-export default function Inquiry() {
+export default function Success_List() {
     return(
         <>
         <div className="innerwrap">
+        <h1>합격자 후기 게시판</h1>
         
         <div className="whiteboard">
             <Grid container>
@@ -15,13 +17,12 @@ export default function Inquiry() {
                 </Grid>
                 <Grid item xs={10}>
                     <div className="maintext">
-                        <h4>여기 가져가서 만드세용</h4>
+                        <SuccessList />
                     </div>
                 </Grid>
             </Grid>
         </div>
         </div>
         </>
-    )
-    
+    );
 }
