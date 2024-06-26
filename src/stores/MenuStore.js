@@ -9,7 +9,7 @@ class MenuStore{
     reviewList = [] ;
     adminList = [] ;
     queryList = [] ;
-
+    inquiryList=[] ;
 
     constructor(){
         makeAutoObservable(this);
@@ -43,7 +43,10 @@ class MenuStore{
         this.setToken(token)
     }
 
-    
+    setInquiryList(inquiryList){
+        this.inquiryList = inquiryList;
+    }
+
     // setAdminList(adminList){
     //     this.adminList = adminList;
     // }
