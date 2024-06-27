@@ -16,6 +16,10 @@ const nextConfig = {
                 source : "/review/reviewlist",
                 destination : "http://localhost:8090/review/reviewlist"
             },
+            {
+                source : "/report/:path*",
+                destination : "http://localhost:8090/report/:path*"
+            },
         ];
     }
 };

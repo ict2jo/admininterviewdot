@@ -1,0 +1,23 @@
+.tablewrap{
+    margin: 0 auto;
+    height: 95vh;
+}
+.inqpagination{
+    display: flex;
+    margin-top: 20px;
+    border: none;
+    justify-content: center;
+}
+.tablewrap h1{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+}
+.ellipsis-cell {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }

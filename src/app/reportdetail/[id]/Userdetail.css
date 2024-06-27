@@ -1,0 +1,52 @@
+
+.inquirydetailcontainer {
+    display: flex;
+    align-items: center;
+    height: 93vh;
+    width: 100%;
+}
+.inquiry-detail-wrapper {
+    display: flex; 
+    justify-content: space-between;
+    gap: 20px; 
+}
+.inquirydetailbox1{
+    width: 600px;
+    height: 400px;
+    margin-top: 10px;
+}
+.inquirydetailbox2{
+    width: 400px;
+    height: 400px;
+    margin-top: 10px;
+}
+.inquirytitlebox{
+}
+.inquirydatebox{
+    display: flex; 
+    justify-content: space-between;
+    gap: 20px;
+}
+.inquirytextbox{
+border: 1px solid #1111;
+
+}
+
+.bluebox{
+    background-color: #1400FF;
+    width: 100%;
+    height: 10px;
+    margin: 0px auto;
+}
+.inquirybut{
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이의 간격 */
+    width: 100%;
+    margin-top: 60px;
+}
+.inquirydetailcontainer h1{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}

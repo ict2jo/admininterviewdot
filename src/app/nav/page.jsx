@@ -16,8 +16,8 @@ const Nav = ({handleMenuClick}) => {
             <ListItemButton onClick={() => handleMenuClick("successlist")}>
                 <ListItemText>successlist</ListItemText>
             </ListItemButton>
-            <ListItemButton onClick={() => handleMenuClick("userlist")}>
-                <ListItemText>userlist</ListItemText>
+            <ListItemButton onClick={() => handleMenuClick("reportlist")}>
+                <ListItemText>reportlist</ListItemText>
             </ListItemButton>
             <ListItemButton onClick={() => handleMenuClick("inquirylist")}>
                 <ListItemText>inquirylist</ListItemText>
