@@ -7,19 +7,24 @@ import Inquiry from "../inquiry/page";
 import { Grid } from "@mui/material";
 import { MenuContext } from "@/stores/StoreContext";
 import SuccessList from "../review/successlist/page";
-import UserList from "../user/userlist/page";
 import AdminList from "../adminlist/page";
+import Reportlist from "../reportlist/page";
+//import ReviewList from "../review/reviewlist/page";
 
 export default function AdminMain() {
     const menuStore = useContext(MenuContext);
-    const [selectedMenu, setSelectedMenu] = useState(() => localStorage.getItem("selectedMenu") || "userlist");
+    const [selectedMenu, setSelectedMenu] = useState(() => {
+        const savedMenu = localStorage.getItem("selectedMenu");
+        return savedMenu || "userlist"; // 기본 값으로 "userlist"를 설정
+    });
 
     useEffect(() => {
         const savedMenu = localStorage.getItem("selectedMenu");
         if (savedMenu) {
-          menuStore.setSelectedMenu(savedMenu);
+            setSelectedMenu(savedMenu);
+            menuStore.setSelectedMenu(savedMenu); // Update MenuContext if needed
         }
-      }, [menuStore]);
+    }, [menuStore]);
     
       // 선택된 메뉴가 변경될 때마다 로컬 스토리지에 저장
       useEffect(() => {
@@ -37,12 +42,12 @@ export default function AdminMain() {
 
     const renderContent = () => {
         switch (selectedMenu) {
-            //case "reviewList":
-                //return <ReviewList />;
+           // case "reviewList":
+            //    return <ReviewList />;
             case "successlist":
                 return <SuccessList />;
-            case "userlist":
-                return <UserList />;
+            case "reportlist":
+                return <Reportlist />;
             case "inquirylist":
                 return <Inquiry />;
             case "adminlist":

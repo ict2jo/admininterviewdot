@@ -5,7 +5,7 @@ class MenuStore{
     selectedMenu = "successlist" ;  // 선택된 메뉴
     isAuthenticated = false;     // 사용자 인증상태
     token = null  ;              // 사용자 토큰
-    userList = [] ;             // 서버에서 가져온 
+    reportlist = [] ;             // 서버에서 가져온 
     reviewList = [] ;
     adminList = [] ;
     queryList = [] ;
@@ -46,7 +46,9 @@ class MenuStore{
     setInquiryList(inquiryList){
         this.inquiryList = inquiryList;
     }
-
+    setReportList(reportlist){
+        this.reportlist = reportlist;
+    }
     // setAdminList(adminList){
     //     this.adminList = adminList;
     // }
@@ -56,8 +58,7 @@ class MenuStore{
     // setSuccessList(successlist){
     //     this.successlist = successlist;
     // }
-    // setUserList(userlist){
-    //     this.userlist = userlist;
+    
     // }
     // setQueryList(querylist){
     //     this.querylist = querylist;
