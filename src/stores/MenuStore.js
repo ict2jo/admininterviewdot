@@ -10,7 +10,11 @@ class MenuStore{
     adminList = [] ;
     queryList = [] ;
     inquiryList=[] ;
-
+    adminInfo = {
+        a_id:'',
+        a_name : '',
+        a_email : '',
+    }
     constructor(){
         makeAutoObservable(this);
     }
@@ -49,21 +53,17 @@ class MenuStore{
     setReportList(reportlist){
         this.reportlist = reportlist;
     }
-    // setAdminList(adminList){
-    //     this.adminList = adminList;
-    // }
-    // setReviewList(reviewList){
-    //     this.reviewList = reviewList;
-    // }
-    // setSuccessList(successlist){
-    //     this.successlist = successlist;
-    // }
+    setAdminList(adminList){
+        this.adminList = adminList;
+    }
+    setReviewList(reviewList){
+        this.reviewList = reviewList;
+    }
+    setSuccessList(successlist){
+        this.successlist = successlist;
+    }
     
-    // }
-    // setQueryList(querylist){
-    //     this.querylist = querylist;
-    // }
-}
+    }
 
 const menuStore = new MenuStore(); // 스토어 인스턴스 생성 
 export default menuStore ;

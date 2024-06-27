@@ -8,6 +8,7 @@ import { useContext } from "react";
 
 const Nav = ({handleMenuClick}) => {
     const menuStore = useContext(MenuContext); 
+    const { a_id, a_name, a_email} = menuStore.adminInfo;
     return (
         <List>
             <ListItemButton onClick={() => handleMenuClick("reviewList")}>
@@ -24,6 +25,9 @@ const Nav = ({handleMenuClick}) => {
             </ListItemButton>
             <ListItemButton onClick={() => handleMenuClick("adminlist")}>
                 <ListItemText>adminlist</ListItemText>
+            </ListItemButton>
+            <ListItemButton onClick={() => handleMenuClick("adminlist")}>
+                <ListItemText>{a_name}</ListItemText>
             </ListItemButton>
         </List>
     );

@@ -13,10 +13,16 @@ import Reportlist from "../reportlist/page";
 
 export default function AdminMain() {
     const menuStore = useContext(MenuContext);
+    const router = useRouter();
     const [selectedMenu, setSelectedMenu] = useState(() => {
         const savedMenu = localStorage.getItem("selectedMenu");
         return savedMenu || "userlist"; // 기본 값으로 "userlist"를 설정
     });
+    useEffect(() => {
+        if(!menuStore.isAuthenticated){
+            router.push("/")
+        }
+    },[router, menuStore]);
 
     useEffect(() => {
         const savedMenu = localStorage.getItem("selectedMenu");
