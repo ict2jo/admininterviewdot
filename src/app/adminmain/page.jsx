@@ -2,29 +2,29 @@
 'use client';
 
 import { useContext, useEffect, useState } from "react";
-import ReviewList from "../reviewlist/page";
-import SuccessList from "../successlist/page";
-import UserList from "../userlist/page";
 import Nav from "../nav/page";
-import QueryList from "../querylist/page";
-import AdminList from "../adminlist/page";
 import Inquiry from "../inquiry/page";
 import { Grid } from "@mui/material";
 import { MenuContext } from "@/stores/StoreContext";
+import SuccessList from "../review/successlist/page";
+import UserList from "../user/userlist/page";
+import AdminList from "../adminlist/page";
 
 export default function AdminMain() {
     const menuStore = useContext(MenuContext);
     const [selectedMenu, setSelectedMenu] = useState(() => localStorage.getItem("selectedMenu") || "userlist");
 
     useEffect(() => {
-        // localStorage에 저장된 selectedMenu가 있으면 menuStore에 반영
-        if (localStorage.getItem("selectedMenu")) {
-            menuStore.setSelectedMenu(localStorage.getItem("selectedMenu"));
-        } else {
-            // localStorage에 selectedMenu가 없으면 초기화
-            localStorage.setItem("selectedMenu", menuStore.selectedMenu);
+        const savedMenu = localStorage.getItem("selectedMenu");
+        if (savedMenu) {
+          menuStore.setSelectedMenu(savedMenu);
         }
-    }, [menuStore]);
+      }, [menuStore]);
+    
+      // 선택된 메뉴가 변경될 때마다 로컬 스토리지에 저장
+      useEffect(() => {
+        localStorage.setItem("selectedMenu", menuStore.selectedMenu);
+      }, [menuStore.selectedMenu]);
 
     const handleMenuClick = (menu) => {
         // 클릭한 메뉴로 selectedMenu 업데이트
@@ -37,18 +37,18 @@ export default function AdminMain() {
 
     const renderContent = () => {
         switch (selectedMenu) {
-            case "reviewList":
-                return <ReviewList />;
+            //case "reviewList":
+                //return <ReviewList />;
             case "successlist":
                 return <SuccessList />;
             case "userlist":
                 return <UserList />;
-            case "querylist":
-                return <QueryList />;
+            case "inquirylist":
+                return <Inquiry />;
             case "adminlist":
                 return <AdminList />;
             default:
-                return <QueryList />;
+                return <Inquiry />;
         }
     };
 

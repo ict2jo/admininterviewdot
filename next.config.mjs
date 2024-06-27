@@ -9,6 +9,10 @@ const nextConfig = {
                 destination : "http://localhost:8090/api/adminlogin"
             },
             {
+                source : "/inquiry/:path*",
+                destination : "http://localhost:8090/inquiry/:path*"
+            },
+            {
                 source : "/review/reviewlist",
                 destination : "http://localhost:8090/review/reviewlist"
             },
