@@ -228,4 +228,23 @@ body{
   margin-left: 10px; /* 왼쪽 여백 */
   
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
 
+.center {
+  text-align: center; /* 텍스트를 가운데 정렬 */
+  flex-grow: 1; /* 나머지 공간을 채우기 위해 flex-grow 사용 */
+}
+
+.logout {
+  cursor: pointer; /* 로그아웃 링크에 포인터 커서 적용 */
+  margin-right: 30px;
+}
+
+.body1{
+  background-color: #1400FF;
+}

@@ -9,14 +9,24 @@ import { MenuContext } from "@/stores/StoreContext";
 import SuccessList from "../review/successlist/page";
 import AdminList from "../adminlist/page";
 import Reportlist from "../reportlist/page";
-//import ReviewList from "../review/reviewlist/page";
+import { useRouter } from "next/navigation";
+import authStore from "@/stores/AuthStore";
+import AdminCreate from "../adminlist/admincreate/page";
 
 export default function AdminMain() {
     const menuStore = useContext(MenuContext);
+    const router = useRouter();
     const [selectedMenu, setSelectedMenu] = useState(() => {
         const savedMenu = localStorage.getItem("selectedMenu");
         return savedMenu || "userlist"; // 기본 값으로 "userlist"를 설정
     });
+    useEffect(() => {
+        if(!authStore.isAuthenticated){
+            router.push("/")
+        }
+        console.log("a_id",authStore.a_id);
+        console.log("authStore.adminInfo",authStore.adminInfo);
+    },[router, authStore]);
 
     useEffect(() => {
         const savedMenu = localStorage.getItem("selectedMenu");
@@ -41,7 +51,7 @@ export default function AdminMain() {
     };
 
     const renderContent = () => {
-        switch (selectedMenu) {
+        switch (menuStore.selectedMenu) {
            // case "reviewList":
             //    return <ReviewList />;
             case "successlist":
@@ -52,6 +62,8 @@ export default function AdminMain() {
                 return <Inquiry />;
             case "adminlist":
                 return <AdminList />;
+            case "admincreat":
+                return <AdminCreate />;
             default:
                 return <Inquiry />;
         }

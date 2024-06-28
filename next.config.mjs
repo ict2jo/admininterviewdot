@@ -5,8 +5,8 @@ const nextConfig = {
     async rewrites(){
         return[
             {
-                source : "/api/adminlogin",
-                destination : "http://localhost:8090/api/adminlogin"
+                source : "/api/:path*",
+                destination : "http://localhost:8090/api/:path*"
             },
             {
                 source : "/inquiry/:path*",
@@ -19,6 +19,10 @@ const nextConfig = {
             {
                 source : "/report/:path*",
                 destination : "http://localhost:8090/report/:path*"
+            },
+            {
+                source : "/admin/:path*",
+                destination : "http://localhost:8090/admin/:path*"
             },
         ];
     }
