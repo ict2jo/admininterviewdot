@@ -1,6 +1,7 @@
 import "./globals.css";
 import {CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './defaultTheme.js';
+import Header from "./header/page";
 
 export const metadata = {
   title: "Create Next App",
@@ -9,13 +10,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 
-
   return (
     <html lang="en">
-      <body>
+      <body className="body1">
       <ThemeProvider theme={theme}>
       <CssBaseline />
-      <h3 className="logo">인터뷰닷</h3>
+      <Header />
       <div className="bg">
       {children}
       </div>

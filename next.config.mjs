@@ -20,6 +20,10 @@ const nextConfig = {
                 source : "/report/:path*",
                 destination : "http://localhost:8090/report/:path*"
             },
+            {
+                source : "/admin/:path*",
+                destination : "http://localhost:8090/admin/:path*"
+            },
         ];
     }
 };

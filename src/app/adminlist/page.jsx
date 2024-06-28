@@ -1,49 +1,148 @@
-// UserList 컴포넌트 (userList/page.js)
-import { Container, Typography, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from "@mui/material";
+"use client"; // 클라이언트 컴포넌트로 설정
 
-// 가상의 유저 데이터
-const users = [
-    { id: 1, username: 'admin1', email: 'admin1@example.com', role: 'admin1' },
-    { id: 2, username: 'admin2', email: 'admin2@example.com', role: 'admin2' },
-    { id: 3, username: 'admin3', email: 'admin3@example.com', role: 'admin3' },
-    { id: 4, username: 'admin4', email: 'admin4@example.com', role: 'admin4' },
-    { id: 5, username: 'admin5', email: 'admin5@example.com', role: 'admin5' },
-    { id: 6, username: 'admin6', email: 'admin6@example.com', role: 'admin6' },
-    { id: 7, username: 'admin7', email: 'admin7@example.com', role: 'admin7' },
-    { id: 8, username: 'admin8', email: 'admin8@example.com', role: 'admin8' },
-    { id: 9, username: 'admin9', email: 'admin8@example.com', role: 'admin9' },
-    
-];
+import { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableFooter from '@mui/material/TableFooter';
+import TableRow from '@mui/material/TableRow';
+import Pagination from '@mui/material/Pagination';
+import { Box, Button, CircularProgress, Table, TableHead } from '@mui/material';
+import './adminlist.css';
+import { MenuContext } from '@/stores/StoreContext';
+import { useRouter } from 'next/navigation'; // next/router 대신 next/navigation 사용
+import Link from 'next/link';
+import { observer } from 'mobx-react-lite';
 
-export default function AdminList() {
+
+const AdminList = observer(() => {
+    const menuStore = useContext(MenuContext);
+    const [page, setPage] = useState(1); // Current page state
+    const [rowsPerPage] = useState(5); // Rows per page (fixed)
+    const fetchData = () => {
+        axios.get('/admin/adminlist').then((data)=>{
+        console.log(data.data)
+        menuStore.setAdminList(data.data);
+        })
+        .catch((error) => {
+        alert("데이터를 가져오는 데 실패했습니다.");
+        console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+        });
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    // Pagination logic
+    const rows = menuStore.adminList || []; 
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - (page - 1) * rowsPerPage);
+    const displayedRows = rows.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage);
+    const pageCount = Math.ceil(rows.length / rowsPerPage); // Total pages
+
+    const router = useRouter();
+
+    // Handle page change
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+    const handleAdminEdit = (a_idx) => {
+        router.push(`/adminedit/${a_idx}?id=${a_idx}`);
+    };
+    const handleMenuClick = (menu) => {
+        localStorage.setItem("selectedMenu", menu);
+        menuStore.setSelectedMenu(menu);
+    };
+    const handleAdminDelete = async (a_idx) => {
+            const response = await axios.post('/admin/admindelete', null, {
+                params: { a_idx }
+            }).then(response => {
+                console.log("사용자 정지 요청이 성공했습니다.", response.data);
+                alert("사용자 정지 완료했습니다.");
+                window.location.reload();
+                })
+                .catch(error => {
+                console.error("사용자 정지 요청 중 오류가 발생했습니다.", error);
+                });
+            }
     return (
         <>
-            <Container>
-                <TableContainer >
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>관리자명</TableCell>
-                                <TableCell>이메일</TableCell>
-                                <TableCell>역할</TableCell>
-                                <TableCell>등급</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {users.map((user) => (
-                                <TableRow key={user.id}>
-                                    <TableCell>{user.id}</TableCell>
-                                    <TableCell>{user.username}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
-                                    <TableCell>{user.grade}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Container>
+        <TableContainer sx={{ width: 1000 }} className='tablewrap'>
+        <h1>관리자 리스트</h1>
+        <Table sx={{ minWidth: 600 }}>
+            <TableHead sx={{ borderBottom: '3px solid blue' }}>
+            <TableRow>
+                <TableCell sx={{ width: '50px', textAlign:'center'}}>NO</TableCell>
+                <TableCell sx={{ width: '100px', textAlign:'center' }}>ID</TableCell>
+                <TableCell sx={{ width: '100px', textAlign:'center' }}>이름</TableCell>
+                <TableCell sx={{ width: '100px', textAlign:'center' }}>전화번호</TableCell>
+                <TableCell sx={{ width: '100px', textAlign:'center' }}>이메일</TableCell>
+                <TableCell sx={{ width: '408px', textAlign:'center' }}>수정/삭제</TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            {/* Map displayed rows and render */}
+            {displayedRows.map((row, index) => (
+                <TableRow key={row.i_idx}>
+                <TableCell sx={{ width: '50px', textAlign:'center'}}>
+                {row.a_idx}
+                </TableCell>
+                
+                <TableCell sx={{ width: '100px', textAlign:'center' }}>
+                {row.a_id}
+                </TableCell>
+
+                <TableCell sx={{ width: '100px', textAlign:'center' }}>
+                {row.a_name}
+                </TableCell>
+
+                <TableCell sx={{ width: '200px', textAlign:'center' }}>
+                {row.a_phone}
+                </TableCell>
+
+                <TableCell sx={{ width: '100px', textAlign:'center' }}>
+                {row.a_email}
+                </TableCell>
+
+                <TableCell sx={{ width: '408px', textAlign: 'center', display: 'flex', flexDirection: 'row',justifyContent: 'center', gap: '10px'}}>
+                <Button variant='contained' onClick={() => handleAdminEdit(row.a_idx)}>수정하기</Button>
+                <Button variant='outlined' onClick={() => handleAdminDelete(row.a_idx)}>삭제하기</Button>
+                </TableCell>
+            </TableRow>
+            ))}
+            {emptyRows > 0 && (
+                <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={4} />
+                </TableRow>
+            )}
+            </TableBody>
+            {/* Pagination */}
+            <TableFooter>
+            <TableRow>
+                <TableCell colSpan={12} align="center" sx={{ border: 0 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+                        <Pagination
+                            count={pageCount} // Total pages
+                            page={page} // Current page index (1-based)
+                            color="primary"
+                            onChange={handleChangePage} // Page change handler
+                            size="large" // Pagination size
+                            className='inqpagination'
+                        />
+                    </Box>
+                    <Box sx={{ flexShrink: 0 }}>
+                        <Button variant='contained' onClick={() => handleMenuClick("admincreat")}>관리자 생성하기</Button>
+                    </Box>
+                </Box>
+                </TableCell>
+            </TableRow>
+            </TableFooter>
+        </Table>
+        </TableContainer>
         </>
     );
-}
+});
+
+export default AdminList;
+
