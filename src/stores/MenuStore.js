@@ -2,7 +2,9 @@ import { makeAutoObservable } from "mobx";
 
 
 class MenuStore{
-    selectedMenu = "successlist" ;  // 선택된 메뉴
+    selectedMenu = 
+    localStorage.getItem("selectedMenu") || "main"
+    ;  // 선택된 메뉴
     reportlist = [] ;             // 서버에서 가져온 
     reviewList = [] ;
     adminList = [] ;
@@ -16,6 +18,7 @@ class MenuStore{
     // 메뉴 변경 
     setSelectedMenu(menu){
         this.selectedMenu = menu;
+        localStorage.setItem("selectedMenu", menu);
     }
 
     setInquiryList(inquiryList){

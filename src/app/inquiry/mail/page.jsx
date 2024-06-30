@@ -2,6 +2,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './mail.css';
+import { Button, Input, TextField } from '@mui/material';
+import { Textarea } from '@nextui-org/react';
 
 const Mail = ({ clickModal, ivo }) => {
 
@@ -38,34 +40,40 @@ const Mail = ({ clickModal, ivo }) => {
           <table>
             <tbody>
               <tr>
-                <td>문의 내용</td>
                 <td>
-                  <p>제목 : {ivo.i_subject}</p>
-                  <p>내용 : {ivo.i_content}</p>
+                  <p>문의 제목</p>
+                  <p>문의 내용</p>
+                </td>
+                <td>
+                  <p>{ivo.i_subject}</p>
+                  <p>{ivo.i_content}</p>
                   <input type='hidden' name="i_idx" value={ivo.i_idx} />
                 </td>
               </tr>
               <tr>
                 <td>메일 주소</td>
                 <td>
-                  <input type="email" name="email" defaultValue={ivo.email} required />
+                <Input type='email' label="email" name='title' defaultValue={ivo.email} required />
                 </td>
               </tr>
               <tr>
                 <td>제목</td>
                 <td>
-                  <input type="text" name="title" placeholder="제목을 입력하세요" required />
+                <Input type='text' label="title" name='title'placeholder="제목을 입력하세요" required />
                 </td>
               </tr>
               <tr>
                 <td>내용</td>
                 <td>
-                  <textarea name="content" placeholder="보낼 내용을 입력하세요" required></textarea>
+                <TextField  name="content" multiline id="outlined-multiline-flexible"
+                  rows={4} variant="standard"InputProps={{ style: { whiteSpace: 'pre-wrap' } }}placeholder="보낼 내용을 입력하세요" required/>
                 </td>
               </tr>
             </tbody>
           </table>
-          <button type="submit">발송</button>
+          <div style={{ textAlign: 'center' }}>
+          <Button variant="contained"type="submit">발송하기</Button>
+          </div>
         </form>
       </div>
     </div>

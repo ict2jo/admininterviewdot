@@ -9,21 +9,38 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import './Userdetail.css';
 import Mail from '@/app/inquiry/mail/page';
 import Nav from '@/app/Nav/page';
+import authStore from '@/stores/AuthStore';
 
-const Userdetail = observer(() => {
+const Reportdetail = observer(({rep_idx}) => {
   const menuStore = useContext(MenuContext);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const id = searchParams.get('id');
   const [loading, setLoading] = useState(true);
-  const [rvo, setRvo] = useState(null); // 초기값을 null로 설정
-  
-  const API_URL = `/report/reportdetail?rep_idx=${id}`;
+  const [rvo, setRvo] = useState({
+    rep_idx: rep_idx,
+    a_id: authStore.a_id,
+    u_idx: '',
+    u2_idx: '',
+    rep_okdate: '',
+    rep_sysdate: '',
+    r_idx: '',
+    s_idx: '',
+    r_title: '',
+    r_content: '',
+    s_title: '',
+    s_content: '',
+    rep_active: '',
+    id: '',
+    active: '',
+    u_report: ''
+  });
+  const API_URL = `/report/reportdetail?rep_idx=${rep_idx}`;
   
   const fetchData = async () => {
     try {
       const { data } = await axios.get(API_URL);
       setRvo(data[0]);
+      console.log(data[0]);
     } catch (error) {
       alert("데이터를 가져오는 데 실패했습니다.");
       console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
@@ -34,21 +51,19 @@ const Userdetail = observer(() => {
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [rep_idx]);
 
   const handleMenuClick = (menu) => {
     menuStore.setSelectedMenu(menu);
     router.push("/adminmain");
   };
 
-  const handleReportClick = (u_idx) => {
-        axios.post('/report/reportclick', null, {
-          params: { u_idx }
-      })
+  const handleReportClick = () => {
+    axios.post('/report/reportclick', rvo)
       .then(response => {
         console.log("사용자 정지 요청이 성공했습니다.", response.data);
         alert("사용자 정지 완료했습니다.");
-        window.location.reload();
+        fetchData(); // 데이터 다시 불러오기
       })
       .catch(error => {
         console.error("사용자 정지 요청 중 오류가 발생했습니다.", error);
@@ -66,24 +81,24 @@ const Userdetail = observer(() => {
 
     return (
         <div>
-  <FormControl className="inquirydetailcontainer">
+  <FormControl className="reportdetailcontainer">
     <h1>신고 내역</h1>
-    <div className="inquiry-detail-wrapper">
+    <div className="report-detail-wrapper">
       {/* 첫 번째 열 */}
-      <div className="inquirydetailbox1">
-        <div className="inquirytitlebox">
+      <div className="reportdetailbox1">
+        <div className="reporttitlebox">
           <div className="bluebox"></div>
-          <Typography variant="h6" sx={{ lineHeight: 2, marginLeft: 2 }} gutterBottom>
+          <Typography variant="h6" sx={{ lineHeight: 2 }} gutterBottom>
             {rvo.r_title ? (
-              <p className="ellipsis-cell">제목: {rvo.r_title}</p>
+              <p>제목: {rvo.r_title}</p>
             ) : (
-              <p className="ellipsis-cell">제목: {rvo.s_title}</p>
+              <p>제목: {rvo.s_title}</p>
             )}
           </Typography>
         </div>
-        <div className="inquirytextbox">
+        <div className="reporttextbox">
           <div className="bluebox"></div>
-          <Typography variant="body1" sx={{ lineHeight: 2, marginTop: 2, marginLeft: 2, whiteSpace: 'pre-line' }} gutterBottom>
+          <Typography variant="h6" sx={{ lineHeight: 2, marginTop: 2 }} gutterBottom>
             {rvo.r_content ? (
               <p>내용: {rvo.r_content}</p>
             ) : (
@@ -94,7 +109,7 @@ const Userdetail = observer(() => {
       </div>
 
       {/* 두 번째 열 */}
-      <div className="inquirydetailbox2">
+      <div className="reportdetailbox2">
             <div>
               <div className="bluebox"></div>
               <Typography variant="h6" sx={{ lineHeight: 2, marginLeft: 2, marginRight: 2 }} gutterBottom>
@@ -127,14 +142,14 @@ const Userdetail = observer(() => {
           </div>
       </div>
     </div>
-      <div className="inquirybut">
+      <div className="reportbut">
       {rvo.rep_active === '0' ? (
-          <Button variant="contained" onClick={() => handleReportClick(rvo.u_idx)}>정지하기</Button>
+          <Button variant="contained" onClick={() => handleReportClick()}>정지하기</Button>
       ) : (
           <Button variant="contained">정지완료</Button>
       )}
 
-          <Button variant="outlined" onClick={() => handleMenuClick("inquirylist")}>목록으로</Button>
+          <Button variant="outlined" onClick={() => handleMenuClick("reportlist")}>목록으로</Button>
       </div>
   </FormControl>
 </div>
@@ -143,23 +158,10 @@ const Userdetail = observer(() => {
   };
 
   return (
-    <div className="innerwrap">
-      <div className="whiteboard">
-        <Grid container>
-          <Grid item xs={2}>
-            <div className="grayboard">
-              <Nav handleMenuClick={handleMenuClick} />
-            </div>
-          </Grid>
-          <Grid item xs={10}>
-            <div className="maintext">
+    <div>
               {renderContent()}
-            </div>
-          </Grid>
-        </Grid>
-      </div>
     </div>
   );
 });
 
-export default Userdetail;
+export default Reportdetail;

@@ -1,31 +1,31 @@
 
-.inquirydetailcontainer {
+.reportdetailcontainer {
     display: flex;
     align-items: center;
     height: 93vh;
     width: 100%;
 }
-.inquiry-detail-wrapper {
+.report-detail-wrapper {
     display: flex; 
     justify-content: space-between;
     gap: 20px; 
 }
-.inquirydetailbox1{
+.reportdetailbox1{
     width: 600px;
     height: 400px;
     margin-top: 10px;
 }
-.inquirydetailbox2{
+.reportdetailbox2{
     width: 400px;
     height: 400px;
     margin-top: 10px;
 }
-.inquirydatebox{
+.reportdatebox{
     display: flex; 
     justify-content: space-between;
     gap: 20px;
 }
-.inquirytextbox{
+.reporttextbox{
 border: 1px solid #1111;
 
 }
@@ -36,14 +36,14 @@ border: 1px solid #1111;
     height: 10px;
     margin: 0px auto;
 }
-.inquirybut{
+.reportbut{
     display: flex;
     justify-content: center;
     gap: 10px; /* 버튼 사이의 간격 */
     width: 100%;
     margin-top: 60px;
 }
-.inquirydetailcontainer h1{
+.reportdetailcontainer h1{
     font-size: 20px;
     font-weight: bold;
     text-align: center;
