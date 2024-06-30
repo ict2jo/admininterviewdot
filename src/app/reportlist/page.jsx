@@ -45,7 +45,11 @@ const Reportlist = observer(() => {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-
+    const handleMenuClick = (menu) => {
+        console.log("handleMenuClick", menu); // 메뉴 클릭 이벤트가 발생하는지 확인
+        menuStore.setSelectedMenu(menu);
+        localStorage.setItem("selectedMenu", menu);
+    };
     return (
         <>
         <TableContainer sx={{ width: 1000 }} className='tablewrap'>
@@ -64,18 +68,15 @@ const Reportlist = observer(() => {
             {/* Map displayed rows and render */}
             {displayedRows.map((row, index) => (
                 <TableRow key={row.rep_idx}>
-                {/* 신고 번호 */}
                 <TableCell sx={{ width: '100px', textAlign:'center'}}>{row.rep_idx}</TableCell>
                 
                 {/* 신고 게시글 */}
-                <TableCell sx={{ width: '200px', textAlign:'center' }}>
-                <Link href={`/reportdetail/${row.rep_idx}?id=${row.rep_idx}`}>
+                <TableCell sx={{ width: '200px', textAlign:'center' }} onClick={() => handleMenuClick(`reportdetail/${row.rep_idx}`)}>
                 {row.r_title ? (
                     <p className="ellipsis-cell">{row.r_title}</p>
                     ) : (
                     <p className="ellipsis-cell">{row.s_title}</p>
                     )}
-                </Link>
                 </TableCell>
                 
                 {/* 신고 날짜 */}

@@ -1,59 +1,60 @@
-// AdminMain 컴포넌트
 'use client';
 
+import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
 import Nav from "../nav/page";
 import Inquiry from "../inquiry/page";
 import { Grid } from "@mui/material";
-import { MenuContext } from "@/stores/StoreContext";
 import SuccessList from "../review/successlist/page";
 import AdminList from "../adminlist/page";
 import Reportlist from "../reportlist/page";
 import { useRouter } from "next/navigation";
 import authStore from "@/stores/AuthStore";
+import Inquirydetail from "../inquiry/inquirydetail/[id]/page";
+import Reportdetail from "../reportdetail/[id]/page";
+import menuStore from "@/stores/MenuStore";
+import Adminedit from "../adminlist/adminedit/[id]/page";
 import AdminCreate from "../adminlist/admincreate/page";
 
-export default function AdminMain() {
-    const menuStore = useContext(MenuContext);
+function AdminMain() {
     const router = useRouter();
-    const [selectedMenu, setSelectedMenu] = useState(() => {
-        const savedMenu = localStorage.getItem("selectedMenu");
-        return savedMenu || "userlist"; // 기본 값으로 "userlist"를 설정
-    });
-    useEffect(() => {
-        if(!authStore.isAuthenticated){
-            router.push("/")
-        }
-        console.log("a_id",authStore.a_id);
-        console.log("authStore.adminInfo",authStore.adminInfo);
-    },[router, authStore]);
 
     useEffect(() => {
-        const savedMenu = localStorage.getItem("selectedMenu");
-        if (savedMenu) {
-            setSelectedMenu(savedMenu);
-            menuStore.setSelectedMenu(savedMenu); // Update MenuContext if needed
+        if (!authStore.isAuthenticated) {
+            router.push("/");
         }
-    }, [menuStore]);
-    
-      // 선택된 메뉴가 변경될 때마다 로컬 스토리지에 저장
-      useEffect(() => {
-        localStorage.setItem("selectedMenu", menuStore.selectedMenu);
-      }, [menuStore.selectedMenu]);
+        console.log("a_id", authStore.a_id);
+        console.log("authStore.adminInfo", authStore.adminInfo);
+    }, [router]);
 
     const handleMenuClick = (menu) => {
-        // 클릭한 메뉴로 selectedMenu 업데이트
-        setSelectedMenu(menu);
-        // localStorage에도 저장
-        localStorage.setItem("selectedMenu", menu);
-        // menuStore에 반영
         menuStore.setSelectedMenu(menu);
     };
+    useEffect(() => {
+        // menuStore.selectedMenu가 변경될 때마다 호출되도록 설정
+        const renderContent = () => {
+            // renderContent 함수 내용
+        };
+        renderContent();
+    }, [menuStore.selectedMenu]); // menuStore.selectedMenu를 의존성 배열에 추가
 
     const renderContent = () => {
+        if (menuStore.selectedMenu.startsWith(`adminedit/`)) {
+            const a_idx = menuStore.selectedMenu.split('/')[1];
+            console.log(a_idx);
+            return <Adminedit a_idx={a_idx} />;
+        }
+        if (menuStore.selectedMenu.startsWith(`reportdetail/`)) {
+            const rep_idx = menuStore.selectedMenu.split('/')[1];
+            console.log(rep_idx);
+            return <Reportdetail rep_idx={rep_idx} />;
+        }
+        if (menuStore.selectedMenu.startsWith(`inquirydetail/`)) {
+            const i_idx = menuStore.selectedMenu.split('/')[1];
+            console.log(i_idx);
+            return <Inquirydetail i_idx={i_idx} />;
+        }
         switch (menuStore.selectedMenu) {
-           // case "reviewList":
-            //    return <ReviewList />;
             case "successlist":
                 return <SuccessList />;
             case "reportlist":
@@ -62,11 +63,12 @@ export default function AdminMain() {
                 return <Inquiry />;
             case "adminlist":
                 return <AdminList />;
-            case "admincreat":
+            case "admincreate":
                 return <AdminCreate />;
             default:
                 return <Inquiry />;
         }
+        
     };
 
     return (
@@ -88,3 +90,4 @@ export default function AdminMain() {
         </div>
     );
 }
+export default observer(AdminMain);

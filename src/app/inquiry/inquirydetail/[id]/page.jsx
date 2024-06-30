@@ -10,15 +10,14 @@ import './inquirydetail.css';
 import Mail from '@/app/inquiry/mail/page';
 import Nav from '@/app/Nav/page';
 
-const Inquirydetail = observer(() => {
+const Inquirydetail = observer(({i_idx}) => {
   const menuStore = useContext(MenuContext);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const id = searchParams.get('id');
   const [loading, setLoading] = useState(true);
   const [ivo, setIvo] = useState(null); // 초기값을 null로 설정
   
-  const API_URL = `/inquiry/inquirydetail?i_idx=${id}`;
+  const API_URL = `/inquiry/inquirydetail?i_idx=${i_idx}`;
   
   const fetchData = async () => {
     try {
@@ -34,7 +33,7 @@ const Inquirydetail = observer(() => {
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [i_idx]);
 
   const handleMenuClick = (menu) => {
     menuStore.setSelectedMenu(menu);
@@ -82,21 +81,8 @@ const Inquirydetail = observer(() => {
   };
 
   return (
-    <div className="innerwrap">
-      <div className="whiteboard">
-        <Grid container>
-          <Grid item xs={2}>
-            <div className="grayboard">
-              <Nav handleMenuClick={handleMenuClick} />
-            </div>
-          </Grid>
-          <Grid item xs={10}>
-            <div className="maintext">
+    <div>
               {renderContent()}
-            </div>
-          </Grid>
-        </Grid>
-      </div>
     </div>
   );
 });

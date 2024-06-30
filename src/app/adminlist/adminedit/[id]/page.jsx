@@ -6,18 +6,17 @@ import { Button, FormControl, Typography, CircularProgress, Grid, Input } from '
 import { MenuContext } from '@/stores/StoreContext';
 import { observer } from 'mobx-react-lite';
 import { useRouter, useSearchParams } from 'next/navigation';
-import './inquirydetail.css';
+import './adminedit.css';
 import Nav from '@/app/Nav/page';
 
-const Adminedit= observer(() => {
+const Adminedit= observer(({a_idx}) => {
   const menuStore = useContext(MenuContext);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const id = searchParams.get('id');
   const [loading, setLoading] = useState(true);
   const [avo, setAvo] = useState(null); // 초기값을 null로 설정
   
-  const API_URL = `/admin/admindetail?a_idx=${id}`;
+  const API_URL = `/admin/admindetail?a_idx=${a_idx}`;
   
   const fetchData = async () => {
     try {
@@ -45,7 +44,7 @@ const Adminedit= observer(() => {
   
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [a_idx]);
 
   const handleMenuClick = (menu) => {
     menuStore.setSelectedMenu(menu);
@@ -68,59 +67,72 @@ const Adminedit= observer(() => {
     }
     return (
       <div>
-        <FormControl className="inquirydetailcontainer">
+        <FormControl className="admineditdetailcontainer">
           <h1>관리자 정보 수정</h1>
-          <div className='inquirydetailbox'>
-            <div className='inquirytitlebox'>
-              <div className='bluebox'></div>
-              <Input type='text' label="id" name='a_id' value={avo.a_id} onChange={changeAvo}>
+          
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>ID:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="id" name='a_id' value={avo.a_id} onChange={changeAvo}>
                 {avo.a_id}
               </Input>
+              </div>
+              </div>
             </div>
-            <div className='inquirytitlebox'>
-              <div className='bluebox'></div>
-              <Input type='text' label="name" name='a_name' value={avo.a_name} onChange={changeAvo}>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>NAME:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="name" name='a_name' value={avo.a_name} onChange={changeAvo}>
                 {avo.a_name}
               </Input>
+              </div>
+              </div>
             </div>
-            <div className='inquirytitlebox'>
-              <div className='bluebox'></div>
-              <Input type='text' label="phone" name='a_phone' value={avo.a_phone} onChange={changeAvo}>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>PHONE:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="phone" name='a_phone' value={avo.a_phone} onChange={changeAvo}>
                 {avo.a_phone}
               </Input>
             </div>
-            <div className='inquirytitlebox'>
-              <div className='bluebox'></div>
-              <Input type='text' label="Email" name='a_email' value={avo.a_email} onChange={changeAvo}>
+            </div>
+              </div>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>EMAIL:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="Email" name='a_email' value={avo.a_email} onChange={changeAvo}>
                 {avo.a_email}
               </Input>
+              </div>
+              </div>
             </div>
-            <div className='inquirybut'>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>PASSWORD:</div> 
+              <div className='admineditdetail'>
+              <Input type='password' sx={{ width: '300px' }} label="Password" name='a_pwd' value={avo.a_pwd} onChange={changeAvo}>
+                {avo.a_pwd}
+              </Input>
+              </div>
+              </div>
+            </div>
+            <div className='admineditbut'>
               <Button variant='contained' onClick={edit}>수정완료</Button>
               <Button variant='outlined' onClick={() => handleMenuClick("inquirylist")}>목록으로</Button>
             </div>
-          </div>
+         
         </FormControl>
       </div>
     );
   };
 
   return (
-    <div className="innerwrap">
-      <div className="whiteboard">
-        <Grid container>
-          <Grid item xs={2}>
-            <div className="grayboard">
-              <Nav handleMenuClick={handleMenuClick} />
-            </div>
-          </Grid>
-          <Grid item xs={10}>
-            <div className="maintext">
+    <div>
               {renderContent()}
-            </div>
-          </Grid>
-        </Grid>
-      </div>
     </div>
   );
 });

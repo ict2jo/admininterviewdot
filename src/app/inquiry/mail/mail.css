@@ -10,24 +10,30 @@
     align-items: center;
 }
 .SearchModalContent {
-    padding: 1.5rem 3rem;
-    width: 28.125rem;
+    padding: 3rem;
+    width: 600px;
     border-radius: 0.313rem;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
+    margin-left: 200px;
 }
 
-.SearchModalContent > div:nth-of-type(1) {
-    background-color: #c8c7c7;
-    border-radius: 0.313rem;
+.SearchModalContent  h1{
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
 }
-
-.SearchModalContent > input {
-    display: flex;
-    align-items: center;
-    margin-top: 0.625rem;
-    border: 0.063rem solid gray;
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-}
+.SearchModalContent table {
+    width: 100%;
+    margin-left: 90px;
+  }
+  
+  .SearchModalContent td {
+    padding: 10px 0;
+  }
+  .SearchModalContent button {
+    margin-top: 20px;
+    padding: 10px 20px;
+  }

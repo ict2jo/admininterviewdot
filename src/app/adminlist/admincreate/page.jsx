@@ -1,10 +1,10 @@
 "use client";
 import { useContext, useState } from 'react';
 import axios from 'axios';
-import { Button, FormControl, TextField } from '@mui/material';
+import { Button, FormControl, Input, TextField } from '@mui/material';
 import { MenuContext } from '@/stores/StoreContext';
 import { observer } from 'mobx-react-lite';
-import './inquirywrite.css';
+import './admincreate.css';
 
 const AdminCreate = observer(() => {
   const menuStore = useContext(MenuContext);
@@ -36,48 +36,67 @@ const AdminCreate = observer(() => {
   }
 
   return (
-    <div className=''>
-    <FormControl className="inquirydetailcontainer">
-    <h1 className='inqwrite'>1:1문의 내역</h1>
-      <div className='inquirydetailbox'>
-      <p className='inqwrite'>아이디</p>
-      <div className='inquirytitlebox'>
-      <div className='bluebox'></div>
-      <input className="inqwritefield" type='text' label="ID" name='a_id' value={avo.a_id} onChange={changeAvo}></input>
-      </div>
-      
-      <p className='inqwrite'>이름</p>
-      <div className='inquirytitlebox'>
-      <div className='bluebox'></div>
-      <input className="inqwritefield" type='text' label="Name" name='a_name' value={avo.a_name} onChange={changeAvo}></input>
-      </div>
-
-      <p className='inqwrite'>이메일</p>
-      <div className='inquirytitlebox'>
-      <div className='bluebox'></div>
-      <input className="inqwritefield" type='email' label="Email" name='a_email' value={avo.a_email} onChange={changeAvo}></input>
-      </div>
-
-      <p className='inqwrite'>전화번호</p>
-      <div className='inquirytitlebox'>
-      <div className='bluebox'></div>
-      <input className="inqwritefield" type='text' label="a_Phone" name='a_phone' value={avo.a_phone} onChange={changeAvo}></input>
-      </div>
-
-      <p className='inqwrite'>비밀번호</p>
-      <div className='inquirytitlebox'>
-      <div className='bluebox'></div>
-      <input className="inqwritefield" type='password' label="Pwd" name='a_pwd' value={avo.a_pwd} onChange={changeAvo}></input>
-      </div>
-
-          <div className='inquirybut'>
-          <Button variant='contained' onClick={create}>작성완료</Button>
-          <Button variant='outlined' onClick={() => {handleMenuClick("adminlist"); router.push("/");}}>목록으로</Button>
-          </div>
-        </div>
+    <div>
+        <FormControl className="admineditdetailcontainer">
+          <h1>관리자 정보 수정</h1>
+          
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>ID:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="id" name='a_id' value={avo.a_id} onChange={changeAvo}>
+                {avo.a_id}
+              </Input>
+              </div>
+              </div>
+            </div>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>NAME:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="name" name='a_name' value={avo.a_name} onChange={changeAvo}>
+                {avo.a_name}
+              </Input>
+              </div>
+              </div>
+            </div>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>PHONE:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="phone" name='a_phone' value={avo.a_phone} onChange={changeAvo}>
+                {avo.a_phone}
+              </Input>
+            </div>
+            </div>
+              </div>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>EMAIL:</div> 
+              <div className='admineditdetail'>
+              <Input type='text' sx={{ width: '300px' }} label="Email" name='a_email' value={avo.a_email} onChange={changeAvo}>
+                {avo.a_email}
+              </Input>
+              </div>
+              </div>
+            </div>
+            <div className='adminedittitlebox'>
+              <div className='admintext'>
+              <div className='adminedittitle'>PASSWORD:</div> 
+              <div className='admineditdetail'>
+              <Input type='password' sx={{ width: '300px' }} label="Password" name='a_pwd' value={avo.a_pwd} onChange={changeAvo}>
+                {avo.a_pwd}
+              </Input>
+              </div>
+              </div>
+            </div>
+            <div className='admineditbut'>
+              <Button variant='contained' onClick={create}>관리자 생성하기</Button>
+              <Button variant='outlined' onClick={() => handleMenuClick("adminlist")}>목록으로</Button>
+            </div>
         </FormControl>
       </div>
-  );
+    );
 });
 
 export default AdminCreate;

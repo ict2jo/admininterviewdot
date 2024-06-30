@@ -105,7 +105,7 @@ const AdminList = observer(() => {
                 </TableCell>
 
                 <TableCell sx={{ width: '408px', textAlign: 'center', display: 'flex', flexDirection: 'row',justifyContent: 'center', gap: '10px'}}>
-                <Button variant='contained' onClick={() => handleAdminEdit(row.a_idx)}>수정하기</Button>
+                <Button variant='contained'  onClick={() => handleMenuClick(`adminedit/${row.a_idx}`)}>수정하기</Button>
                 <Button variant='outlined' onClick={() => handleAdminDelete(row.a_idx)}>삭제하기</Button>
                 </TableCell>
             </TableRow>
@@ -132,7 +132,7 @@ const AdminList = observer(() => {
                         />
                     </Box>
                     <Box sx={{ flexShrink: 0 }}>
-                        <Button variant='contained' onClick={() => handleMenuClick("admincreat")}>관리자 생성하기</Button>
+                        <Button variant='contained' onClick={() => handleMenuClick("admincreate")}>관리자 생성하기</Button>
                     </Box>
                 </Box>
                 </TableCell>

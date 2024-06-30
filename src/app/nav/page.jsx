@@ -14,26 +14,25 @@ const Nav = ({ handleMenuClick }) => {
     const { a_id } = authStore.adminInfo;
 
     return (
+        <div className="navcss">
         <List>
-        <ListItemButton onClick={() => handleMenuClick("reviewList")}>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reviewList")}>
             <ListItemText primary="reviewList" />
         </ListItemButton>
-        <ListItemButton onClick={() => handleMenuClick("successlist")}>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("successlist")}>
             <ListItemText primary="successlist" />
         </ListItemButton>
-        <ListItemButton onClick={() => handleMenuClick("reportlist")}>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reportlist")}>
             <ListItemText primary="reportlist" />
         </ListItemButton>
-        <ListItemButton onClick={() => handleMenuClick("inquirylist")}>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("inquirylist")}>
             <ListItemText primary="inquirylist" />
         </ListItemButton>
-        <ListItemButton onClick={() => handleMenuClick("adminlist")}>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("adminlist")}>
             <ListItemText primary="adminlist" />
         </ListItemButton>
-        <ListItemButton onClick={() => handleMenuClick("adminlist")}>
-            <ListItemText primary={a_id} />
-        </ListItemButton>
         </List>
+        </div>
     );
     }
 
