@@ -7,20 +7,25 @@
   }
   .inquirydetailbox{
     width: 1000px;
-    height: 500px;
     margin-top: 10px;
+}
+.titleboxwrap{
+    display: flex;
+    align-items: center;
 }
 .inquirytitlebox{
 background-color: white;
-margin: 30px;
+margin: 10px;
 height: 50px;
-border: 1px solid #1111;
+border: 1px solid #1400FF;
+width: 100%;
+
 }
 .inquirytextbox{
-background-color: white;
-margin: 30px;
-height: 300px;
-border: 1px solid #1111;
+    background-color: white;
+    margin: 10px;
+    height: 150px;
+    border: 1px solid #1400FF;
 
 }
 
@@ -33,10 +38,17 @@ border: 1px solid #1111;
 .inquirybut{
     display: flex;
     justify-content: center;
+    margin-top: 30px;
     gap: 10px; /* 버튼 사이의 간격 */
     width: 100%;
 }
 .inquirydetailcontainer h1{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 30px;
+}
+.inquirydetailcontainer2 h1{
     font-size: 20px;
     font-weight: bold;
     text-align: center;

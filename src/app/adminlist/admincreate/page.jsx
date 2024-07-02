@@ -34,19 +34,41 @@ const AdminCreate = observer(() => {
       [e.target.name]: e.target.value
     });
   }
-
+  const handleMenuClick = (menu) => {
+    menuStore.setSelectedMenu(menu);
+};
+  async function idcheck(a_id) {
+    try {
+      const response = await axios.get('api/idCheck', {
+        params: { a_id },
+      });
+      console.log("Response data:", response.data);
+      if (response.data) {
+        alert("아이디가 이미 사용 중입니다. 다른 아이디를 사용해주세요.");
+        return false;
+      } else {
+        alert("사용 가능한 아이디입니다.");
+        return true;
+      }
+    } catch (error) {
+      console.error(error);
+      alert("아이디 중복 체크 중 오류가 발생했습니다. 다시 시도해주세요.");
+      return false;
+    }
+  }
   return (
     <div>
         <FormControl className="admineditdetailcontainer">
-          <h1>관리자 정보 수정</h1>
+          <h1>관리자 생성</h1>
           
             <div className='adminedittitlebox'>
               <div className='admintext'>
               <div className='adminedittitle'>ID:</div> 
               <div className='admineditdetail'>
-              <Input type='text' sx={{ width: '300px' }} label="id" name='a_id' value={avo.a_id} onChange={changeAvo}>
+              <Input type='text' sx={{ width: '300px', marginRight: '30px'}} label="id" name='a_id' value={avo.a_id} onChange={changeAvo}>
                 {avo.a_id}
               </Input>
+              <Button variant='contained' onClick={()=>idcheck(avo.a_id)}>중복검사</Button>
               </div>
               </div>
             </div>

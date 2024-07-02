@@ -13,10 +13,23 @@ const Mail = ({ clickModal, ivo }) => {
   const [showModal, setShowModal] = useState(false)
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     const formData = new FormData(event.target);
+    const i_idx = formData.get('i_idx');
+    const email = formData.get('email');
+    const title = formData.get('title');
+    const content = formData.get('content');
+
     try {
       console.log("ivo",ivo);
-      const response = await axios.post('/inquiry/mail2', formData);
+      const response = await axios.post('/inquiry/mail2', null, {
+        params: {
+          i_idx,
+          email,
+          title,
+          content
+        }
+      });
       console.log(response)
       if (response.status === 200) {
         alert('Mail sent successfully!');
@@ -53,7 +66,7 @@ const Mail = ({ clickModal, ivo }) => {
               <tr>
                 <td>메일 주소</td>
                 <td>
-                <Input type='email' label="email" name='title' defaultValue={ivo.email} required />
+                <Input type='email' label="email" name='email' defaultValue={ivo.email} required />
                 </td>
               </tr>
               <tr>
