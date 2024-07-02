@@ -20,6 +20,10 @@ const nextConfig = {
                 destination : "http://localhost:8090/review/reviewlist"
             },
             {
+                source : "/success/successlist",
+                destination : "http://localhost:8090/success/successlist"
+            },
+            {
                 source : "/report/:path*",
                 destination : "http://localhost:8090/report/:path*"
             },
