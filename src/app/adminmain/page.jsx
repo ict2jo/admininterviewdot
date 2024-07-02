@@ -24,7 +24,7 @@ function AdminMain() {
         if (!authStore.isAuthenticated) {
             router.push("/");
         }
-        console.log("a_id", authStore.a_id);
+        console.log("a_id", authStore.adminInfo.a_id);
         console.log("authStore.adminInfo", authStore.adminInfo);
     }, [router]);
 
