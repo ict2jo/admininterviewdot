@@ -15,6 +15,7 @@ import Reportdetail from "../reportdetail/[id]/page";
 import menuStore from "@/stores/MenuStore";
 import Adminedit from "../adminlist/adminedit/[id]/page";
 import AdminCreate from "../adminlist/admincreate/page";
+import Paylist from "../adminPaylist/page";
 
 function AdminMain() {
     const router = useRouter();
@@ -65,7 +66,9 @@ function AdminMain() {
                 return <AdminList />;
             case "admincreate":
                 return <AdminCreate />;
-            default:
+            case "paylist":
+                return <Paylist />;
+                default:
                 return <Inquiry />;
         }
         

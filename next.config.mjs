@@ -2,6 +2,9 @@
 const nextConfig = {
     reactStrictMode:true,
     swcMinify:true,
+    env: {
+        NEXT_PUBLIC_TOSS_SECRET_KEY: process.env.NEXT_PUBLIC_TOSS_SECRET_KEY,
+    },
     async rewrites(){
         return[
             {
@@ -23,6 +26,10 @@ const nextConfig = {
             {
                 source : "/admin/:path*",
                 destination : "http://localhost:8090/admin/:path*"
+            },
+            {
+                source : "/admin/:path*",
+                destination : "http://localhost:8090/payments/:path*"
             },
         ];
     }

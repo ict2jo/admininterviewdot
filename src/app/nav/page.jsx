@@ -31,6 +31,9 @@ const Nav = ({ handleMenuClick }) => {
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("adminlist")}>
             <ListItemText primary="adminlist" />
         </ListItemButton>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("paylist")}>
+            <ListItemText primary="paylist" />
+        </ListItemButton>
         </List>
         </div>
     );

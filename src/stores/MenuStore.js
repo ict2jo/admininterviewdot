@@ -10,6 +10,7 @@ class MenuStore{
     adminList = [] ;
     queryList = [] ;
     inquiryList=[] ;
+    payList=[];
 
     constructor(){
         makeAutoObservable(this);
@@ -38,6 +39,9 @@ class MenuStore{
     }
     setAdminInfo(adminInfo){
         this.adminInfo = this.adminInfo;
+    }
+    setPayList(payList){
+        this.payList = payList;
     }
     }
 
