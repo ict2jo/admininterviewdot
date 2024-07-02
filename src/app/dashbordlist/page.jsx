@@ -1,5 +1,5 @@
-import { BarChart } from '@mui/x-charts/BarChart';
-import { LineChart, PieChart } from '@mui/x-charts';
+
+import { BarChart, LineChart, PieChart } from '@mui/x-charts';
 
 
 export default function DashBordList() {

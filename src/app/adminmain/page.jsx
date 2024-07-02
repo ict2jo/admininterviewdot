@@ -16,6 +16,7 @@ import menuStore from "@/stores/MenuStore";
 import Adminedit from "../adminlist/adminedit/[id]/page";
 import AdminCreate from "../adminlist/admincreate/page";
 import Paylist from "../adminPaylist/page";
+import Dashboard from "../dashboard/page";
 import ReviewList from "../review/reviewList/page";
 
 function AdminMain() {
@@ -76,6 +77,8 @@ function AdminMain() {
                 return <AdminCreate />;
             case "paylist":
                 return <Paylist />;
+            case "dashboard":
+                return <Dashboard />;
                 default:
                 return <Inquiry />;
         }
