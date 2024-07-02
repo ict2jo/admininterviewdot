@@ -16,20 +16,23 @@ const Nav = ({ handleMenuClick }) => {
     return (
         <div className="navcss">
         <List>
-        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reviewList")}>
-            <ListItemText primary="reviewList" />
-        </ListItemButton>
-        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("successlist")}>
-            <ListItemText primary="successlist" />
-        </ListItemButton>
-        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reportlist")}>
-            <ListItemText primary="reportlist" />
-        </ListItemButton>
-        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("inquirylist")}>
-            <ListItemText primary="inquirylist" />
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("adminlist")}>
+            <ListItemText primary="관리자 게시판" />
         </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("adminlist")}>
-            <ListItemText primary="adminlist" />
+            <ListItemText primary="유저관리" />
+        </ListItemButton>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reportlist")}>
+            <ListItemText primary="신고 게시판" />
+        </ListItemButton>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("inquirylist")}>
+            <ListItemText primary="1:1문의 게시판" />
+        </ListItemButton>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reviewList")}>
+            <ListItemText primary="면접 후기게시판" />
+        </ListItemButton>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("successlist")}>
+            <ListItemText primary="합격자 후기 게시판" />
         </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("paylist")}>
             <ListItemText primary="paylist" />

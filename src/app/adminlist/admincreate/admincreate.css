@@ -3,10 +3,12 @@
     display: flex;
     align-items: center;
     width: 100%;
+
   }
 .adminedittitlebox{
 background-color: white;
 margin: 30px;
+margin-left: 220px;
 }
 .admineditbut{
     display: flex;
@@ -22,16 +24,17 @@ margin: 30px;
 }
 .adminedittitle{
     width: 300px;
-    line-height: 40px;
+    line-height: 50px;
     text-align: right;
-    margin-right: 20px;
+    margin-right: 50px;
 }
 .admineditdetail{
-    width: 1000px;
+    display: flex;
+    item-align: center;
 }
 .admintext{
     display: flex;
     align-items: left;
-    width: 600px;
+    width: 1000px;
     margin-left: 50px;
 }

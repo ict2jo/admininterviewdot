@@ -17,6 +17,7 @@ import Adminedit from "../adminlist/adminedit/[id]/page";
 import AdminCreate from "../adminlist/admincreate/page";
 import Paylist from "../adminPaylist/page";
 import Dashboard from "../dashboard/page";
+import ReviewList from "../review/reviewList/page";
 
 function AdminMain() {
     const router = useRouter();
@@ -25,7 +26,7 @@ function AdminMain() {
         if (!authStore.isAuthenticated) {
             router.push("/");
         }
-        console.log("a_id", authStore.a_id);
+        console.log("a_id", authStore.adminInfo.a_id);
         console.log("authStore.adminInfo", authStore.adminInfo);
     }, [router]);
 
@@ -56,9 +57,16 @@ function AdminMain() {
             console.log(i_idx);
             return <Inquirydetail i_idx={i_idx} />;
         }
+        if (menuStore.selectedMenu.startsWith(`reviewList/`)) {
+            const r_idx = menuStore.selectedMenu.split('/')[1];
+            console.log(r_idx);
+            return <ReviewList r_idx={r_idx} />;
+        }
         switch (menuStore.selectedMenu) {
             case "successlist":
                 return <SuccessList />;
+            case "reviewlist":
+                return <ReviewList />;
             case "reportlist":
                 return <Reportlist />;
             case "inquirylist":

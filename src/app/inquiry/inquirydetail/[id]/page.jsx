@@ -57,22 +57,67 @@ const Inquirydetail = observer(({i_idx}) => {
         <FormControl className="inquirydetailcontainer">
           <h1>1:1문의 내역</h1>
           <div className='inquirydetailbox'>
+            <div className='titleboxwrap'>
             <div className='inquirytitlebox'>
               <div className='bluebox'></div>
-              <Typography variant="h6" sx={{ lineHeight: 2, marginLeft: 2 }} gutterBottom>
-                {ivo.i_subject}
+              <Typography sx={{ lineHeight: 2, marginLeft: 2 }} gutterBottom>
+                제목: {ivo.i_subject}
               </Typography>
+            </div>
+            <div className='inquirytitlebox'>
+              <div className='bluebox'></div>
+              <Typography sx={{ lineHeight: 2, marginLeft: 2 }} gutterBottom>
+                날짜: {ivo.i_date}
+              </Typography>
+            </div>
             </div>
             <div className='inquirytextbox'>
               <div className='bluebox'></div>
-              <Typography variant="body1" sx={{ lineHeight: 2, marginTop: 2, marginLeft: 2, whiteSpace: 'pre-line' }} gutterBottom>
-                {ivo.i_content}
+              <Typography sx={{ lineHeight: 2, marginTop: 2, marginLeft: 2, whiteSpace: 'pre-line' }} gutterBottom>
+                문의 내용: {ivo.i_content}
               </Typography>
             </div>
-            <div className='inquirybut'>
-              <Button variant='contained' onClick={clickModal}>답변 보내기</Button>
-              <Button variant='outlined' onClick={() => handleMenuClick("inquirylist")}>목록으로</Button>
-            </div>
+            {ivo.i_answer ? (
+              <div className='inquirydetailcontainer2'>
+                <h1>1:1문의 답변</h1>
+                <div className='titleboxwrap'>
+                  <div className='inquirytitlebox'>
+                    <div className='bluebox'></div>
+                    <Typography sx={{ lineHeight: 2, marginLeft: 2 }} gutterBottom>
+                      제목: {ivo.i_answer_title}
+                    </Typography>
+                  </div>
+                  <div className='inquirytitlebox'>
+                    <div className='bluebox'></div>
+                    <Typography sx={{ lineHeight: 2, marginLeft: 2 }} gutterBottom>
+                      날짜: {ivo.i_date_ok}
+                    </Typography>
+                  </div>
+                  <div className='inquirytitlebox'>
+                    <div className='bluebox'></div>
+                    <Typography sx={{ lineHeight: 2, marginLeft: 2 }} gutterBottom>
+                      이메일: {ivo.i_email}
+                    </Typography>
+                  </div>
+                  </div>
+                  <div className='inquirytextbox'>
+                    <div className='bluebox'></div>
+                    <Typography sx={{ lineHeight: 2, marginTop: 2, marginLeft: 2, whiteSpace: 'pre-line' }} gutterBottom>
+                      답변 내용: {ivo.i_answer}
+                    </Typography>
+                  </div>
+              </div>
+            ) : (
+              <></>
+            )}
+                <div className='inquirybut'>
+                  {ivo.i_answer ? (
+                    <Button variant='contained' disabled>답변 완료</Button>
+                  ) : (
+                    <Button variant='contained' onClick={clickModal}>답변 보내기</Button>
+                  )}
+                  <Button variant='outlined' onClick={() => handleMenuClick("inquirylist")}>목록으로</Button>
+                </div>
           </div>
         </FormControl>
         {showModal && <Mail clickModal={clickModal} ivo={ivo} />}

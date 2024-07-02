@@ -49,29 +49,51 @@ const Login = observer(() => {
         }
     }, [router, authStore]);
 
-    async function login(){
-        try{
-            // axios 서버로 정보 보내기
-            const response =  await axios.post(API_URL,{
-                                a_id : avo.a_id,
-                                a_pwd : avo.a_pwd
-                            });
-            console.log("response.data",response.data)
-            // token 을 로컬 스토리지에 저장
-            if(response.data.token){
-                authStore.setToken(response.data.token)
-                authStore.setAdminInfo(response.data.userDetails)
-                // 성공 후 메인 페이지로 리다이렉트
-                router.push("/adminmain");
+    async function login() {
+        try {
+            const response = await axios.post(API_URL, {
+                a_id: avo.a_id,
+                a_pwd: avo.a_pwd
+            });
+    
+            console.log("response.data", response.data);
+    
+            if (response.data.success) {
+                const { message, userDetails } = response.data;
+    
+                if (userDetails.a_status === -1) {
+                    alert("정지된 회원입니다.");
+                    setAvo({
+                        a_id: "",
+                        a_pwd: ""
+                    });
+                } else {
+                    const { token } = response.data;
+    
+                    // 토큰과 사용자 정보를 상태에 저장
+                    authStore.setToken(token);
+                    authStore.setAdminInfo(userDetails);
+    
+                    // 성공 후 메인 페이지로 리다이렉트
+                    router.push("/adminmain");
+                }
+            } else {
+                alert("로그인 실패: 아이디 또는 비밀번호가 일치하지 않습니다.");
+                setAvo({
+                    a_id: "",
+                    a_pwd: ""
+                });
             }
-        }catch(error){
-            alert("로그인 실패")
+        } catch (error) {
+            console.error('로그인 요청 실패:', error);
+            alert("로그인 요청 실패: 네트워크 오류 또는 서버 오류가 발생했습니다.");
             setAvo({
-                a_id : "",
-                a_pwd : ""
-            })
+                a_id: "",
+                a_pwd: ""
+            });
         }
     }
+    
     function changeAvo(e){
         setAvo({
             ...avo,
