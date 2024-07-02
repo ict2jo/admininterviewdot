@@ -1,0 +1,17 @@
+.chart-container {
+    width: 100%;
+    background-color: white; 
+}
+
+.bar-chart {
+    height: 400px; 
+    width: calc(50vw - 20px); 
+}
+
+.css-1qdzy9k-MuiBarElement-root {
+    stroke: none;
+    fill: blue;
+    -webkit-transition: opacity 0.2s ease-in, fill 0.2s ease-in;
+    transition: opacity 0.2s ease-in, fill 0.2s ease-in;
+    opacity: 1;
+}

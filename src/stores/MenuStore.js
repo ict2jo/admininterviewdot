@@ -11,6 +11,7 @@ class MenuStore{
     queryList = [] ;
     inquiryList=[] ;
     payList=[];
+    dashboard=[];
 
     constructor(){
         makeAutoObservable(this);
@@ -42,6 +43,9 @@ class MenuStore{
     }
     setPayList(payList){
         this.payList = payList;
+    }
+    setDashboard(dashboard){
+        this.dashboard = dashboard;
     }
     }
 
