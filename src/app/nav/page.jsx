@@ -35,10 +35,10 @@ const Nav = ({ handleMenuClick }) => {
             <ListItemText primary="합격자 후기 게시판" />
         </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("paylist")}>
-            <ListItemText primary="paylist" />
+            <ListItemText primary="결제관리" />
         </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("dashboard")}>
-            <ListItemText primary="dashboard" />
+            <ListItemText primary="대시보드" />
         </ListItemButton>
         </List>
         </div>
