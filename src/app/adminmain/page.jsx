@@ -80,7 +80,7 @@ function AdminMain() {
             case "dashboard":
                 return <Dashboard />;
                 default:
-                return <Inquiry />;
+                return <Dashboard />;
         }
         
     };

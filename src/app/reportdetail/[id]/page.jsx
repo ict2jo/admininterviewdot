@@ -88,7 +88,7 @@ const Reportdetail = observer(({rep_idx}) => {
       <div className="reportdetailbox1">
         <div className="reporttitlebox">
           <div className="bluebox"></div>
-          <Typography variant="h6" sx={{ lineHeight: 2 }} gutterBottom>
+          <Typography variant="h6" sx={{ lineHeight: 2, paddingLeft: 2 }} gutterBottom>
             {rvo.r_title ? (
               <p>제목: {rvo.r_title}</p>
             ) : (
@@ -98,7 +98,7 @@ const Reportdetail = observer(({rep_idx}) => {
         </div>
         <div className="reporttextbox">
           <div className="bluebox"></div>
-          <Typography variant="h6" sx={{ lineHeight: 2, marginTop: 2 }} gutterBottom>
+          <Typography variant="h6" sx={{ lineHeight: 2, marginTop: 2, paddingLeft: 2}} gutterBottom>
             {rvo.r_content ? (
               <p>내용: {rvo.r_content}</p>
             ) : (

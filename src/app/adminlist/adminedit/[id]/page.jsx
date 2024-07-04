@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { useRouter, useSearchParams } from 'next/navigation';
 import './adminedit.css';
 import Nav from '@/app/Nav/page';
+import authStore from '@/stores/AuthStore';
 
 const Adminedit= observer(({a_idx}) => {
   const menuStore = useContext(MenuContext);
@@ -41,6 +42,7 @@ const Adminedit= observer(({a_idx}) => {
       console.error(error); // 에러 출력
     }
   }
+  const a_id = authStore.adminInfo.a_id;
   async function idcheck(a_id) {
     try {
       const response = await axios.get('api/idCheck', {
@@ -141,7 +143,7 @@ const Adminedit= observer(({a_idx}) => {
             </div>
             <div className='admineditbut'>
               <Button variant='contained' onClick={edit}>수정완료</Button>
-              <Button variant='outlined' onClick={() => handleMenuClick("inquirylist")}>목록으로</Button>
+              <Button variant='outlined' onClick={() => handleMenuClick("adminlist")}>목록으로</Button>
             </div>
          
         </FormControl>

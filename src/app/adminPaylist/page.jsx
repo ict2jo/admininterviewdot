@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
 import TableRow from '@mui/material/TableRow';
 import Pagination from '@mui/material/Pagination';
-import { Button, CircularProgress, Table, TableHead } from '@mui/material';
+import { Table, TableHead } from '@mui/material';
 import './inquiry.css';
 import { MenuContext } from '@/stores/StoreContext';
 import { observer } from 'mobx-react-lite';
@@ -94,29 +94,30 @@ const Paylist = observer(() => {
 
 
     return (
-        <TableContainer sx={{ width: 1000 }} className='tablewrap'>
+        <TableContainer sx={{ width: 1190 }} className='tablewrap'>
             <h1>결제관리</h1>
             <Table sx={{ minWidth: 600 }}>
                 <TableHead sx={{ borderBottom: '3px solid blue' }}>
                     <TableRow>
                         <TableCell sx={{ width: '10px', textAlign: 'center' }}>No</TableCell>
-                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>사용자</TableCell>
-                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>결제상품</TableCell>
+                        <TableCell sx={{ width: '20px', textAlign: 'center' }}>사용자</TableCell>
+                        <TableCell sx={{ width: '80px', textAlign: 'center' }}>결제상품</TableCell>
                         <TableCell sx={{ width: '50px', textAlign: 'center' }}>결제금액</TableCell>
-                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>결제수단</TableCell>
+                        <TableCell sx={{ width: '60px', textAlign: 'center' }}>결제수단</TableCell>
                         <TableCell sx={{ width: '50px', textAlign: 'center' }}>결제일자</TableCell>
                         <TableCell sx={{ width: '50px', textAlign: 'center' }}>취소일자</TableCell>
                         <TableCell sx={{ width: '50px', textAlign: 'center' }}>취소사유</TableCell>
+                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>처리상태</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {displayedRows.map((row, index) => (
                         <TableRow key={row.t_idx}>
                             <TableCell sx={{ width: '10px', textAlign: 'center' }}>{calculateIndex(page, index)}</TableCell>
-                            <TableCell sx={{ width: '50px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '20px', textAlign: 'center' }}>
                                 <p>{row.id}</p>
                             </TableCell>
-                            <TableCell sx={{ width: '50px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '80px', textAlign: 'center' }}>
                                 <p>{row.orderName}</p>
                             </TableCell>
                             <TableCell sx={{ width: '50px', textAlign: 'center' }}>
@@ -125,7 +126,7 @@ const Paylist = observer(() => {
                             <TableCell sx={{ width: '50px', textAlign: 'center' }}>
                                 <p>{row.provider}</p>
                             </TableCell>
-                            <TableCell sx={{ width: '50px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '60px', textAlign: 'center' }}>
                                 <p>{row.approvedAt}</p>
                             </TableCell>
                             <TableCell sx={{ width: '50px', textAlign: 'center' }}>
@@ -135,8 +136,10 @@ const Paylist = observer(() => {
                                 <p>{row.cancelReason}</p>
                             </TableCell>
                             <TableCell sx={{ width: '50px', textAlign: 'center' }}>
-                                {row.payStatus === "취소중" && (
+                            {row.payStatus === "취소중" ? (
                                     <button onClick={() => handleCancelOk(row)}>처리</button>
+                                ) : (
+                                    '처리완료'
                                 )}
                             </TableCell>
                             
@@ -144,13 +147,13 @@ const Paylist = observer(() => {
                     ))}
                     {emptyRows > 0 && (
                         <TableRow style={{ height: 53 * emptyRows }}>
-                            <TableCell colSpan={4} />
+                            <TableCell colSpan={12} />
                         </TableRow>
                     )}
                 </TableBody>
                 <TableFooter>
                     <TableRow>
-                        <TableCell colSpan={8} align="center" sx={{ border: 0 }}>
+                        <TableCell colSpan={12} align="center" sx={{ border: 0 }}>
                             <Pagination
                                 count={pageCount} 
                                 page={page} 

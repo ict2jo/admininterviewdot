@@ -65,7 +65,6 @@ const Reportlist = observer(() => {
             </TableRow>
             </TableHead>
             <TableBody>
-            {/* Map displayed rows and render */}
             {displayedRows.map((row, index) => (
                 <TableRow key={row.rep_idx}>
                 <TableCell sx={{ width: '100px', textAlign:'center'}}>{row.rep_idx}</TableCell>
@@ -73,20 +72,20 @@ const Reportlist = observer(() => {
                 {/* 신고 게시글 */}
                 <TableCell sx={{ width: '200px', textAlign:'center' }} onClick={() => handleMenuClick(`reportdetail/${row.rep_idx}`)}>
                 {row.r_title ? (
-                    <p className="ellipsis-cell">{row.r_title}</p>
+                    <p>{row.r_title}</p>
                     ) : (
-                    <p className="ellipsis-cell">{row.s_title}</p>
+                    <p>{row.s_title}</p>
                     )}
                 </TableCell>
                 
                 {/* 신고 날짜 */}
                 <TableCell sx={{ width: '100px', textAlign:'center' }}>
-                <p className="ellipsis-cell">{row.rep_sysdate}</p>
+                <p>{row.rep_sysdate}</p>
                 </TableCell>
 
                 {/* 신고 상태 */}
                 <TableCell sx={{ width: '100px', textAlign:'center' }}>
-                <p className="ellipsis-cell">
+                <p>
                 {row.rep_active == 0 ? '처리대기중' : '신고처리완료'}</p>
                 </TableCell>
 

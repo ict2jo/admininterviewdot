@@ -13,13 +13,11 @@ const Mail = ({ clickModal, ivo }) => {
   const [showModal, setShowModal] = useState(false)
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     const i_idx = formData.get('i_idx');
     const email = formData.get('email');
     const title = formData.get('title');
     const content = formData.get('content');
-
     try {
       console.log("ivo",ivo);
       const response = await axios.post('/inquiry/mail2', null, {
@@ -34,6 +32,7 @@ const Mail = ({ clickModal, ivo }) => {
       if (response.status === 200) {
         alert('Mail sent successfully!');
         clickModal();
+        location.reload();
       } else {
         console.error('Failed to send mail. Server responded with status:', response.status);
       }

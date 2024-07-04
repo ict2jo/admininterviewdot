@@ -1,7 +1,8 @@
 "use client"
 
 import authStore from "@/stores/AuthStore";
-import { Avatar, Button, FormControl, Stack, TextField } from "@mui/material";
+import menuStore from "@/stores/MenuStore";
+import { Avatar, Button, FormControl, Stack, TextField, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import axios from "axios";
 import { observer } from "mobx-react-lite";
@@ -14,9 +15,11 @@ const Login = observer(() => {
         a_id : '',
         a_pwd : ''
     });
-
     const router = useRouter();
-
+const handleMenuClick = (menu) => {
+        localStorage.setItem("selectedMenu", menu);
+        menuStore.setSelectedMenu(menu);
+    };
     useEffect(() => {
         console.log("a_id",authStore.a_id);
         console.log("isAuthenticated",authStore.isAuthenticated);
@@ -24,22 +27,22 @@ const Login = observer(() => {
         
         authStore.loadToken();
         if (authStore.isAuthenticated) {
-            router.push("/adminmain");
+            router.push("/adminmain")
+            menuStore.setSelectedMenu("dashboard");
             console.log("authStore.isAuthenticated없나")
         }else{
-            // 로그인 성공 후 개인정보 가지고 서버로 다시 가기
             console.log("authStore.isAuthenticated있나")
             const urlParams = new URLSearchParams(window.location.search)
             const token = urlParams.get('token')
             if(token){
                 authStore.setToken(token);
-                // 개인정보를 받기 위해서 
                 axios.get('/api/userInfo', {params:{token}})
                 console.log("토큰있니?",token)
                 .then(response => {
                     // 개인정보
                     authStore.setAdminInfo(response.data);
                     router.push("/adminmain")
+                    menuStore.setSelectedMenu("dashboard");
                     console.log(authStore.adminInfo);
                 })
                 .catch(error => {
@@ -69,13 +72,10 @@ const Login = observer(() => {
                     });
                 } else {
                     const { token } = response.data;
-    
-                    // 토큰과 사용자 정보를 상태에 저장
                     authStore.setToken(token);
                     authStore.setAdminInfo(userDetails);
-    
-                    // 성공 후 메인 페이지로 리다이렉트
-                    router.push("/adminmain");
+                    router.push("/adminmain")
+                    menuStore.setSelectedMenu("dashboard");
                 }
             } else {
                 alert("로그인 실패: 아이디 또는 비밀번호가 일치하지 않습니다.");
@@ -101,10 +101,10 @@ const Login = observer(() => {
         })
     }
     return(
-        <div style={{width: '80%', margin: '100px auto', paddingTop: '20px', textAlign: 'center'}}>
+        <div style={{width: '20%', margin: '200px auto', padding: '60px', textAlign: 'center', backgroundColor: 'white', borderRadius: '10px'}}>
             <FormControl>
                 <Stack direction="column" spacing={1} alignItems='center'>
-                    <Avatar sx={{ bgcolor: green[500], marginBottom:'20px'}} />
+                    <Typography><h2>관리자 로그인</h2></Typography>
                     <TextField type='text' label='id' name='a_id' fullWidth  autoComplete="off" onChange={changeAvo} />
                     <TextField type='password' label='password' name='a_pwd' fullWidth autoComplete="off" onChange={changeAvo} />
                     <Button fullWidth variant='contained' onClick={login} >로그인</Button>
