@@ -1,6 +1,7 @@
 "use client"
 
 import authStore from "@/stores/AuthStore";
+import menuStore from "@/stores/MenuStore";
 import { Avatar, Button, FormControl, Stack, TextField, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import axios from "axios";
@@ -14,9 +15,11 @@ const Login = observer(() => {
         a_id : '',
         a_pwd : ''
     });
-
     const router = useRouter();
-
+const handleMenuClick = (menu) => {
+        localStorage.setItem("selectedMenu", menu);
+        menuStore.setSelectedMenu(menu);
+    };
     useEffect(() => {
         console.log("a_id",authStore.a_id);
         console.log("isAuthenticated",authStore.isAuthenticated);
@@ -24,7 +27,8 @@ const Login = observer(() => {
         
         authStore.loadToken();
         if (authStore.isAuthenticated) {
-            router.push("/adminmain");
+            router.push("/adminmain")
+            menuStore.setSelectedMenu("dashboard");
             console.log("authStore.isAuthenticated없나")
         }else{
             console.log("authStore.isAuthenticated있나")
@@ -38,6 +42,7 @@ const Login = observer(() => {
                     // 개인정보
                     authStore.setAdminInfo(response.data);
                     router.push("/adminmain")
+                    menuStore.setSelectedMenu("dashboard");
                     console.log(authStore.adminInfo);
                 })
                 .catch(error => {
@@ -69,7 +74,8 @@ const Login = observer(() => {
                     const { token } = response.data;
                     authStore.setToken(token);
                     authStore.setAdminInfo(userDetails);
-                    router.push("/adminmain");
+                    router.push("/adminmain")
+                    menuStore.setSelectedMenu("dashboard");
                 }
             } else {
                 alert("로그인 실패: 아이디 또는 비밀번호가 일치하지 않습니다.");
