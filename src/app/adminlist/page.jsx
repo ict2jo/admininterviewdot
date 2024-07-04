@@ -42,12 +42,8 @@ const AdminList = observer(() => {
 
     const router = useRouter();
 
-    // Handle page change
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-    };
-    const handleAdminEdit = (a_idx) => {
-        router.push(`/adminedit/${a_idx}?id=${a_idx}`);
     };
     const handleMenuClick = (menu) => {
         localStorage.setItem("selectedMenu", menu);
@@ -63,6 +59,18 @@ const AdminList = observer(() => {
                 })
                 .catch(error => {
                 console.error("사용자 정지 요청 중 오류가 발생했습니다.", error);
+                });
+            }
+    const handleAdminLive = async (a_idx) => {
+            const response = await axios.post('/admin/adminlive', null, {
+                params: { a_idx }
+            }).then(response => {
+                console.log("사용자 복구 성공했습니다.", response.data);
+                alert("사용자 복구 완료했습니다.");
+                window.location.reload();
+                })
+                .catch(error => {
+                console.error("사용자 복구 요청 중 오류가 발생했습니다.", error);
                 });
             }
     return (
@@ -106,13 +114,14 @@ const AdminList = observer(() => {
 
                 <TableCell sx={{ width: '408px', textAlign: 'center', display: 'flex', flexDirection: 'row',justifyContent: 'center', gap: '10px'}}>
                 <Button variant='contained'  onClick={() => handleMenuClick(`adminedit/${row.a_idx}`)}>수정하기</Button>
-                <Button variant='outlined' onClick={() => handleAdminDelete(row.a_idx)}>삭제하기</Button>
+                {row.a_status ? (<Button variant='outlined' onClick={() => handleAdminLive(row.a_idx)}>복구하기</Button>)
+                :(<Button variant='outlined' onClick={() => handleAdminDelete(row.a_idx)}>정지하기</Button>)}
                 </TableCell>
             </TableRow>
             ))}
             {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={4} />
+                <TableRow style={{ height: 97 * emptyRows, width: '100%' }}>
+                <TableCell colSpan={12} />
                 </TableRow>
             )}
             </TableBody>

@@ -16,11 +16,14 @@ const Nav = ({ handleMenuClick }) => {
     return (
         <div className="navcss">
         <List>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("dashboard")}>
+            <ListItemText primary="대시보드" />
+        </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("adminlist")}>
             <ListItemText primary="관리자 게시판" />
         </ListItemButton>
-        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("adminlist")}>
-            <ListItemText primary="유저관리" />
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("paylist")}>
+            <ListItemText primary="결제관리" />
         </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reportlist")}>
             <ListItemText primary="신고 게시판" />
@@ -33,12 +36,6 @@ const Nav = ({ handleMenuClick }) => {
         </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("successlist")}>
             <ListItemText primary="합격자 후기 게시판" />
-        </ListItemButton>
-        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("paylist")}>
-            <ListItemText primary="결제관리" />
-        </ListItemButton>
-        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("dashboard")}>
-            <ListItemText primary="대시보드" />
         </ListItemButton>
         </List>
         </div>

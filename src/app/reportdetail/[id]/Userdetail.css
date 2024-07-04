@@ -9,21 +9,25 @@
     display: flex; 
     justify-content: space-between;
     gap: 20px; 
+    margin-top: 50px;
 }
 .reportdetailbox1{
     width: 600px;
-    height: 400px;
+    height: 100px;
     margin-top: 10px;
+    border: 1px solid #1111;
 }
 .reportdetailbox2{
     width: 400px;
-    height: 400px;
+    height: 452px;
     margin-top: 10px;
+    border: 1px solid #1111;
 }
 .reportdatebox{
     display: flex; 
     justify-content: space-between;
     gap: 20px;
+    border: 1px solid #1111;
 }
 .reporttextbox{
 border: 1px solid #1111;
