@@ -1,53 +1,184 @@
 "use client"
 
-import { Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import authStore from "@/stores/AuthStore";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
+import './Successlist.css';
+import { MenuContext } from "@/stores/StoreContext";
 
-
-const users = [
-    { id: 1, username: 'user1', email: 'user1@example.com', role: 'admin' },
-    { id: 2, username: 'user2', email: 'user2@example.com', role: 'user2' },
-    { id: 3, username: 'user3', email: 'user3@example.com', role: 'user3' },
-    { id: 4, username: 'user4', email: 'user4@example.com', role: 'user4' },
-    { id: 5, username: 'user5', email: 'user5@example.com', role: 'user5' },
-];
 export default function SuccessList() {
+    const menuStore = useContext(MenuContext);
+    const [successList, setSuccessList] = useState([]);
+    const [selectedSuccess, setSelectedSuccess] = useState([]);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [page, setPage] = useState(1); // 현재 페이지 상태 추가
+    const [totalPages, setTotalPages] = useState(""); // 전체 페이지 수 상태 추가
+    const successPerPage = 9; // 한 페이지당 보일 후기 개수
     const router = useRouter();
 
-    const handleSuccDetail = () => {
-        router.push("/sidebar/review/success_detail")
+    useEffect(() => {
+        fetchSuccessList(page);
+    }, [page]);
+
+    useEffect(() => {
+        fetchSuccessList();
+    }, []);
+
+
+    const fetchSuccessList = async (page) => {
+        try {
+            const response = await axios.get(`/success/successlist?page=${page}&limit=${successPerPage}`);
+            const activeSuccess = response.data.filter(success => success.active === '0');
+            setSuccessList(activeSuccess);
+            setSuccessList(response.data);
+            setTotalPages(response.data.totalPages);
+        } catch (error) {
+            console.error("합격 후기 데이터를 불러오는 중 오류 발생 : ", error);
+        }
+    };
+
+    useEffect(() => {
+        async function fetchSuccessList() {
+            try {
+                const response = await axios.get("/success/successlist");
+                setSuccessList(response.data);
+            } catch (error) {
+                console.error("합격 후기 데이터를 불러오는 중 오류 발생: ", error);
+            }
+        }
+        fetchSuccessList()
+    }, []);
+
+
+    const handleSuccessClick = (success) => {
+        setSelectedSuccess(success);
+        setOpenDialog(true);
+    };
+
+    useEffect(() => {
+        console.log("selectedSuccess", selectedSuccess);
+    }, [selectedSuccess]);
+
+    
+
+    const handleDelete = async () => {
+        try {
+            // 서버에 삭제할 후기 정보 전송
+            const response = await axios.post("http://localhost:8090/success/deletesuccess", {
+                s_idx: selectedSuccess.s_idx,
+            });
+            console.log("후기 삭제됨:", response.data);
+
+            // 삭제 후 후기 목록 다시 불러오기
+            await fetchSuccessList();
+            handleCloseDialog(); // 팝업 닫기
+
+        } catch (error) {
+            console.error("후기 삭제 중 오류 발생:", error);
+        }
+    };
+
+    const handleCloseDialog = () => {
+        setOpenDialog(false);
+        setSelectedSuccess(null); // 선택된 후기 초기화
     };
 
 
-    return(
+    const handlePageChange = (event, value) => {
+        setPage(value);
+    };
+
+    const startIndex = (page - 1) * successPerPage;
+    const endIndex = startIndex + successPerPage;
+    const currentSuccess = successList.slice(startIndex, endIndex);
+    return (
         <>
-            <Container>
-                <Typography variant="h4" padding={"10px"} >
-                    
-                </Typography>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
+            <Container sx={{ width: 1000 }} className="successwrap">
+                    <h1>합격 후기 게시판</h1>
+                    <Table sx={{ minWidth: 600 }}>
+                        <TableHead sx={{ borderBottom: '3px solid blue' }}>
                             <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>사용자명</TableCell>
-                                <TableCell>이메일</TableCell>
-                                <TableCell>역할</TableCell>
+                                <TableCell sx={{ width: '100px', textAlign: 'center' }}>NO</TableCell>
+                                <TableCell sx={{ width: '100px', textAlign: 'center' }}>작성자</TableCell>
+                                <TableCell sx={{ width: '100px', textAlign: 'center' }}>제목</TableCell>
+                                <TableCell sx={{ width: '300px', textAlign: 'center' }}>내용</TableCell>
+                                <TableCell sx={{ width: '100px', textAlign: 'center' }}>회사</TableCell>
+                                <TableCell sx={{ width: '200px', textAlign: 'center' }}>작성일</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {users.map((user) => (
-                                <TableRow key={user.id} onClick={handleSuccDetail}>
-                                    <TableCell>{user.id}</TableCell>
-                                    <TableCell>{user.username}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
+                            {currentSuccess.map((success) => (
+                                <TableRow
+                                    key={success.s_idx}
+                                    onClick={() => {
+                                        if (success.active !== '1') {
+                                            handleSuccessClick(success)
+
+                                        }
+                                    }}
+                                    style={{ cursor: success.active === '1' ? 'default' : 'pointer' }}
+                                >
+                                    <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_idx}</TableCell>
+                                    <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_id}</TableCell>
+                                    <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_title}</TableCell>
+                                    <TableCell colSpan={1} sx={{ textAlign: 'center' }}>
+                                        {success.active === '1' ? (
+                                            <span style={{ color: 'red', marginLeft: '10px', width: '300px' }}>삭제된 게시물입니다.</span>
+                                        ) : (
+                                            success.s_content
+                                        )}
+                                    </TableCell>
+                                    <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_company}</TableCell>
+                                    <TableCell sx={{ width: '200px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_regdate.substring(0, 10)}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                </TableContainer>
+                    <div style={{ display: 'flex', justifyContent: 'center', margin: '10px 0 25px 0' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                            <Pagination
+                                /* count={totalPages} */
+                                count={Math.ceil(successList.length / successPerPage)}
+                                page={page}
+                                onChange={handlePageChange}
+                                defaultPage={1}
+                                color="primary"
+                                className='supagination'
+                            />
+                        </Box>
+                    </div>
             </Container>
+            <Dialog open={openDialog} onClose={handleCloseDialog}>
+                <DialogTitle>합격 후기 상세보기 및 댓글</DialogTitle>
+                <DialogContent>
+                    {selectedSuccess && (
+                        <>
+                            <Typography variant="h6" >제목: {selectedSuccess.s_title}</Typography>
+                            <Typography>작성자 : {selectedSuccess.s_id}</Typography>
+                            <Typography>
+                                내용:
+                            </Typography>
+                            <Typography>회사: {selectedSuccess.s_company}</Typography>
+                            <Typography>작성일 : {selectedSuccess.s_regdate}</Typography>
+
+                        </>
+
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    
+                        <>
+                            <Button onClick={handleDelete} color="secondary">
+                                삭제
+                            </Button>
+                        </>
+                    <Button onClick={handleCloseDialog} color="primary">
+                        닫기
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 }
