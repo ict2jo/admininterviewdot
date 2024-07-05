@@ -1,13 +1,11 @@
 "use client"
 
-import authStore from "@/stores/AuthStore";
 import { Container, Typography, Paper, Grid, Box, Table, TableHead, TableRow, TableCell, TableBody, Dialog, DialogContent, Pagination, DialogTitle, TextField, DialogActions, Button } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { MenuContext } from '@/stores/StoreContext';
 import './Reviewlist.css';
-import { blue } from "@mui/material/colors";
 
 export default function ReviewList() {
     const menuStore = useContext(MenuContext);
@@ -16,7 +14,10 @@ export default function ReviewList() {
     const [openDialog, setOpenDialog] = useState(false);
     const [page, setPage] = useState(1); // 현재 페이지 상태 추가
     const [totalPages, setTotalPages] = useState(""); // 전체 페이지 수 상태 추가
-    const reviewsPerPage = 9; // 한 페이지당 보일 리뷰 개수
+    const reviewsPerPage = 5; // 한 페이지당 보일 리뷰 개수
+    const [comments, setComments] = useState([]);
+    const [commentContent, setCommentContent] = useState("");
+
     const router = useRouter();
 
     useEffect(() => {
@@ -55,11 +56,17 @@ export default function ReviewList() {
     const handleReviewClick = (review) => {
         setSeletedReview(review);
         setOpenDialog(true);
+        fetchComments(review.r_idx);
+        
     };
 
     useEffect(() => {
         console.log("selectedReview : ", selectedReview);
     }, [selectedReview]);
+
+    useEffect(() => {
+        console.log("comments", comments);
+    }, [commentContent])
 
     const handleDelete = async () => {
         try {
@@ -75,10 +82,44 @@ export default function ReviewList() {
         }
     };
 
+    const fetchComments = async (r_idx) => {
+        try {
+            const response = await axios.get(`http://localhost:8090/comments/comment?r_idx=${r_idx}`);
+            setComments(response.data);
+            console.log("댓글 : ", response.data);
+            /* setCommentContent(response.data); */
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+            setComments([]);
+        }
+    };
+
+    const handleDeleteComment = async (re_idx) => {
+        try {
+            const response = await axios.post("http://localhost:8090/comments/deletecomment", {
+                re_idx: re_idx,
+            })
+            console.log("Comment deleted:", response.data);
+
+            // 삭제 후 댓글 목록 다시 불러오기
+            await fetchComments(selectedReview.r_idx);
+
+            /* handleCloseDialog(); // 팝업 창 닫기 */
+        } catch (error) {
+            console.error("Error deleting comment:", error);
+        }
+    };
+
     const handleCloseDialog = () => {
         setOpenDialog(false);
-        setSeletedReview(null);
+        /* setSeletedReview(null); */
+        setCommentContent("");
+        /* setComments([]); // 댓글 목록 초기화 */
     };
+
+    const handleCommentChange = (event) => {
+        setCommentContent(event.target.value);
+    }
 
     const handlePageChange = (event, value) => {
         setPage(value);
@@ -92,7 +133,7 @@ export default function ReviewList() {
 
             <Container sx={{ width: 1000 }} className="reviewwrap">
                     <h1>면접 후기 게시판</h1>
-                    <Table sx={{ minWidth: 600 }}>
+                    <Table sx={{ minWidth: 600, marginBottom: '20px' }}>
                         <TableHead sx={{ borderBottom: '3px solid blue' }}>
                             <TableRow>
                                 <TableCell sx={{ width: '100px', textAlign: 'center' }}>NO</TableCell>
@@ -145,9 +186,9 @@ export default function ReviewList() {
                         </Box>
                     </div>
             </Container>
-            <Dialog open={openDialog} onClose={handleCloseDialog} className="reviewdetail">
-                <DialogTitle sx={{width: "400px", height: "60px", borderBottom: "3px solid blue"}}>면접 후기 상세 정보 및 댓글</DialogTitle>
-                <DialogContent sx={{width: "300px", marginTop: "10px"}}>
+            <Dialog open={openDialog} onClose={handleCloseDialog} className="reviewdetail" sx={{width:'600px'}}>
+                <DialogTitle sx={{height: "70px",  borderBottom: "3px solid blue"}}>면접 후기 상세 정보 및 댓글</DialogTitle>
+                <DialogContent sx={{marginTop: "10px"}}>
                     {selectedReview && (
                         <>
                             <Typography variant="h6" sx={{color:"blue"}}>제목: {selectedReview.r_title}</Typography>
@@ -156,6 +197,32 @@ export default function ReviewList() {
                             <Typography sx={{marginTop:"5px", fontSize:"13px", color:"gray"}}>작성일: {selectedReview.r_regdate}</Typography>
                             <Typography sx={{marginTop:"15px"}}>내용: {selectedReview.r_content}</Typography>
                             
+                            {/* 댓글 목록 표시 */}
+                            <Typography variant="h6" style={{ marginTop: "5px" }}>
+                                댓글 목록
+                            </Typography>
+                            <Table>
+                                    <TableBody>
+                                        {comments.filter(comment => comment.active !== '1').map((comment) => (
+                                            <TableRow key={comment.re_idx}>
+                                                <TableCell>{comment.re_idx}</TableCell>
+                                                <TableCell>{comment.id}</TableCell>
+                                                <TableCell style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '300px', fontSize: '12px' }}>
+                                                    {comment.re_content}
+                                                </TableCell>
+                                                <TableCell>{comment.re_regdate}</TableCell>
+                                                <TableCell>
+                                                        <Box sx={{ display: 'flex', marginTop: 1, fontSize: '10px' }}>
+                                                            <Button onClick={() => handleDeleteComment(comment.re_idx)} color="primary" sx={{ whiteSpace: 'nowrap', fontSize: '13px' }}>
+                                                                삭제
+                                                            </Button>
+                                                        </Box>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+
                         </>
                     )}
                 </DialogContent>
