@@ -18,6 +18,7 @@ import AdminCreate from "../adminlist/admincreate/page";
 import Paylist from "../adminPaylist/page";
 import Dashboard from "../dashboard/page";
 import ReviewList from "../review/reviewList/page";
+import Userlist from "../userlist/page";
 
 function AdminMain() {
     const router = useRouter();
@@ -34,12 +35,16 @@ function AdminMain() {
         menuStore.setSelectedMenu(menu);
     };
     useEffect(() => {
-        // menuStore.selectedMenu가 변경될 때마다 호출되도록 설정
+        localStorage.getItem("selectedMenu");
+        }, [menuStore]);
+        useEffect(() => {
+            localStorage.setItem("selectedMenu", menuStore.selectedMenu);
+        }, []);
+    useEffect(() => {
         const renderContent = () => {
-            // renderContent 함수 내용
         };
         renderContent();
-    }, [menuStore.selectedMenu]); // menuStore.selectedMenu를 의존성 배열에 추가
+    }, [menuStore.selectedMenu]); 
 
     const renderContent = () => {
         if (menuStore.selectedMenu.startsWith(`adminedit/`)) {
@@ -65,6 +70,8 @@ function AdminMain() {
         switch (menuStore.selectedMenu) {
             case "successlist":
                 return <SuccessList />;
+            case "userlist":
+                return <Userlist />;
             case "reviewlist":
                 return <ReviewList />;
             case "reportlist":

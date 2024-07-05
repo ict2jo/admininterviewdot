@@ -55,7 +55,7 @@ const AdminList = observer(() => {
             }).then(response => {
                 console.log("사용자 정지 요청이 성공했습니다.", response.data);
                 alert("사용자 정지 완료했습니다.");
-                window.location.reload();
+                location.reload();
                 })
                 .catch(error => {
                 console.error("사용자 정지 요청 중 오류가 발생했습니다.", error);
@@ -67,7 +67,7 @@ const AdminList = observer(() => {
             }).then(response => {
                 console.log("사용자 복구 성공했습니다.", response.data);
                 alert("사용자 복구 완료했습니다.");
-                window.location.reload();
+                location.reload();
                 })
                 .catch(error => {
                 console.error("사용자 복구 요청 중 오류가 발생했습니다.", error);
@@ -115,7 +115,7 @@ const AdminList = observer(() => {
                 <TableCell sx={{ width: '408px', textAlign: 'center', display: 'flex', flexDirection: 'row',justifyContent: 'center', gap: '10px'}}>
                 <Button variant='contained'  onClick={() => handleMenuClick(`adminedit/${row.a_idx}`)}>수정하기</Button>
                 {row.a_status ? (<Button variant='outlined' onClick={() => handleAdminLive(row.a_idx)}>복구하기</Button>)
-                :(<Button variant='outlined' onClick={() => handleAdminDelete(row.a_idx)}>정지하기</Button>)}
+                :(<Button variant='contained' onClick={() => handleAdminDelete(row.a_idx)}>정지하기</Button>)}
                 </TableCell>
             </TableRow>
             ))}
