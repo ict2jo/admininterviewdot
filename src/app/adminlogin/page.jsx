@@ -28,7 +28,7 @@ const handleMenuClick = (menu) => {
         authStore.loadToken();
         if (authStore.isAuthenticated) {
             router.push("/adminmain")
-            menuStore.setSelectedMenu("dashboard");
+            //menuStore.setSelectedMenu("dashboard");
             console.log("authStore.isAuthenticated없나")
         }else{
             console.log("authStore.isAuthenticated있나")

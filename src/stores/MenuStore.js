@@ -9,6 +9,7 @@ class MenuStore{
     reviewlist = [] ;
     adminList = [] ;
     queryList = [] ;
+    userList = [] ;
     inquiryList=[] ;
     payList=[];
     dashboard=[];
@@ -25,6 +26,9 @@ class MenuStore{
 
     setInquiryList(inquiryList){
         this.inquiryList = inquiryList;
+    }
+    setUserList(userList){
+        this.userList = userList;
     }
     setReportList(reportlist){
         this.reportlist = reportlist;

@@ -25,6 +25,9 @@ const Nav = ({ handleMenuClick }) => {
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("paylist")}>
             <ListItemText primary="결제관리" />
         </ListItemButton>
+        <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("userlist")}>
+            <ListItemText primary="유저 게시판" />
+        </ListItemButton>
         <ListItemButton sx={{paddingLeft: 5}} onClick={() => handleMenuClick("reportlist")}>
             <ListItemText primary="신고 게시판" />
         </ListItemButton>
