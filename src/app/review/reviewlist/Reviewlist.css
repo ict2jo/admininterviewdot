@@ -1,0 +1,17 @@
+.reviewwrap{
+    margin: 0 auto;
+    height: 95vh;
+}
+
+.reviewwrap h1 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+}
+.repagination{
+    display: flex;
+    margin-top: 20px;
+    border: none;
+    justify-content: center;
+}

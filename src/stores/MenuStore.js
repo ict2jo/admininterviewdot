@@ -6,7 +6,7 @@ class MenuStore{
     localStorage.getItem("selectedMenu") || "main"
     ;  // 선택된 메뉴
     reportlist = [] ;             // 서버에서 가져온 
-    reviewList = [] ;
+    reviewlist = [] ;
     adminList = [] ;
     queryList = [] ;
     inquiryList=[] ;
@@ -32,8 +32,8 @@ class MenuStore{
     setAdminList(adminList){
         this.adminList = adminList;
     }
-    setReviewList(reviewList){
-        this.reviewList = reviewList;
+    setReviewList(reviewlist){
+        this.reviewlist = reviewlist;
     }
     setSuccessList(successlist){
         this.successlist = successlist;

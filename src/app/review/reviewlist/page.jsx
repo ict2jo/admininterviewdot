@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { MenuContext } from '@/stores/StoreContext';
+import './Reviewlist.css';
 
 export default function ReviewList() {
     const menuStore = useContext(MenuContext);
@@ -15,12 +16,15 @@ export default function ReviewList() {
     const [page, setPage] = useState(1); // 현재 페이지 상태 추가
     const [totalPages, setTotalPages] = useState(""); // 전체 페이지 수 상태 추가
     const reviewsPerPage = 9; // 한 페이지당 보일 리뷰 개수
-
     const router = useRouter();
 
     useEffect(() => {
         fetchReviewList(page);
     }, [page]);
+
+    useEffect(() => {
+        fetchReviewList();
+    },[]);
 
     const fetchReviewList = async (page) => {
         try {
@@ -37,7 +41,7 @@ export default function ReviewList() {
     useEffect(() => {
         async function fetchReviewList() {
             try {
-                const response = await axios.get("/review/reviewlist");
+                const response = await axios.get("/review/reviewList");
                 setReviewList(response.data); // 서버에서 받은 데이터를 상태에 저장
             } catch (error) {
                 console.error('Error fetching review data:', error);
@@ -47,12 +51,7 @@ export default function ReviewList() {
         fetchReviewList(); // async 함수 호출
     }, []); // useEffect의 두 번째 인자에 빈 배열을 전달하여 한 번만 호출되도록 설정
 
-    const handleReviewClick = () => {
-        if (!authStore.adminInfo) {
-            alert("로그인 후에 가능합니다.");
-            router.push("");
-            return;
-        }
+    const handleReviewClick = (review) => {
         setSeletedReview(review);
         setOpenDialog(true);
     };
@@ -87,18 +86,13 @@ export default function ReviewList() {
     const startIndex = (page - 1) * reviewsPerPage;
     const endIndex = startIndex + reviewsPerPage;
     const currentReview = reviewList.slice(startIndex, endIndex);
-
     return (
         <>
 
-            <Container>
-                <Typography variant="h4" padding={"10px"} >
-                    면접 후기 게시판
-                </Typography>
-
-                <Paper>
-                    <Table>
-                        <TableHead>
+            <Container sx={{ width: 1000 }} className="reviewwrap">
+                    <h1>면접 후기 게시판</h1>
+                    <Table sx={{ minWidth: 600 }}>
+                        <TableHead sx={{ borderBottom: '3px solid blue' }}>
                             <TableRow>
                                 <TableCell sx={{ width: '100px', textAlign: 'center' }}>NO</TableCell>
                                 <TableCell sx={{ width: '100px', textAlign: 'center' }}>작성자</TableCell>
@@ -145,10 +139,10 @@ export default function ReviewList() {
                                 page={page}
                                 onChange={handlePageChange}
                                 color="primary"
+                                className='repagination'
                             />
                         </Box>
                     </div>
-                </Paper>
             </Container>
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>면접 후기 상세 정보 및 댓글</DialogTitle>
