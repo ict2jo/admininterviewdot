@@ -9,10 +9,10 @@ import TableFooter from '@mui/material/TableFooter';
 import TableRow from '@mui/material/TableRow';
 import Pagination from '@mui/material/Pagination';
 import { Table, TableHead } from '@mui/material';
-import './inquiry.css';
 import { MenuContext } from '@/stores/StoreContext';
 import { observer } from 'mobx-react-lite';
 import authStore from '@/stores/AuthStore';
+import './inquiry.css';
 
 const Paylist = observer(() => {
     const menuStore = useContext(MenuContext);
@@ -21,10 +21,6 @@ const Paylist = observer(() => {
     const secretKey = process.env.NEXT_PUBLIC_TOSS_SECRET_KEY;
     const encodedKey = btoa(secretKey + ':');
 
-    console.log("아이디11" + authStore.adminInfo.a_id)
-    console.log("인증키" + encodedKey)
-    console.log("인증키22" + secretKey)
-    console.log("인증키33" + process.env.NEXT_PUBLIC_TOSS_SECRET_KEY);
     const fetchData = async () => {
         try {
             const response = await axios.get(`http://localhost:8090/payments/payList`);
@@ -52,7 +48,7 @@ const Paylist = observer(() => {
     const rows = menuStore.payList || []; 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - (page - 1) * rowsPerPage);
     const displayedRows = rows.slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage);
-    const pageCount = Math.ceil(rows.length / rowsPerPage); // Total pages
+    const pageCount = Math.ceil(rows.length / rowsPerPage);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -61,8 +57,6 @@ const Paylist = observer(() => {
     // 결제취소
     const handleCancelOk = async (row) => {
         const { t_idx, paymentKey, cancelReason } = row;
-        console.log("아이디" + authStore.adminInfo.a_id)
-        
         try {
             const response = await axios.post(
                 `http://localhost:8090/payments/cancel`,
@@ -79,7 +73,7 @@ const Paylist = observer(() => {
                     },
                 }
             );
-
+            
             if (response.status === 200) {
                 alert("결제 취소가 성공적으로 처리되었습니다.");
                 fetchData();
@@ -92,57 +86,55 @@ const Paylist = observer(() => {
         }
     };
 
-
     return (
         <TableContainer sx={{ width: 1190 }} className='tablewrap'>
             <h1>결제관리</h1>
             <Table sx={{ minWidth: 600 }}>
                 <TableHead sx={{ borderBottom: '3px solid blue' }}>
                     <TableRow>
-                        <TableCell sx={{ width: '10px', textAlign: 'center' }}>No</TableCell>
-                        <TableCell sx={{ width: '20px', textAlign: 'center' }}>사용자</TableCell>
+                        <TableCell sx={{ width: '0px', textAlign: 'center' }}>No</TableCell>
+                        <TableCell sx={{ width: '10px', textAlign: 'center' }}>사용자</TableCell>
                         <TableCell sx={{ width: '80px', textAlign: 'center' }}>결제상품</TableCell>
-                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>결제금액</TableCell>
-                        <TableCell sx={{ width: '60px', textAlign: 'center' }}>결제수단</TableCell>
-                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>결제일자</TableCell>
-                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>취소일자</TableCell>
-                        <TableCell sx={{ width: '50px', textAlign: 'center' }}>취소사유</TableCell>
+                        <TableCell sx={{ width: '40px', textAlign: 'center' }}>결제금액</TableCell>
+                        <TableCell sx={{ width: '70px', textAlign: 'center' }}>결제수단</TableCell>
+                        <TableCell sx={{ width: '40px', textAlign: 'center' }}>결제일자</TableCell>
+                        <TableCell sx={{ width: '40px', textAlign: 'center' }}>취소일자</TableCell>
+                        <TableCell sx={{ width: '60px', textAlign: 'center' }}>취소사유</TableCell>
                         <TableCell sx={{ width: '50px', textAlign: 'center' }}>처리상태</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {displayedRows.map((row, index) => (
                         <TableRow key={row.t_idx}>
-                            <TableCell sx={{ width: '10px', textAlign: 'center' }}>{calculateIndex(page, index)}</TableCell>
-                            <TableCell sx={{ width: '20px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '0px', textAlign: 'center' }}>{calculateIndex(page, index)}</TableCell>
+                            <TableCell sx={{ width: '10px', textAlign: 'center' }}>
                                 <p>{row.id}</p>
                             </TableCell>
                             <TableCell sx={{ width: '80px', textAlign: 'center' }}>
                                 <p>{row.orderName}</p>
                             </TableCell>
-                            <TableCell sx={{ width: '50px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '40px', textAlign: 'center' }}>
                                 <p>{row.amount.toLocaleString()}</p>
                             </TableCell>
-                            <TableCell sx={{ width: '50px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '70px', textAlign: 'center' }}>
                                 <p>{row.provider}</p>
                             </TableCell>
-                            <TableCell sx={{ width: '60px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '40px', textAlign: 'center' }}>
                                 <p>{row.approvedAt}</p>
                             </TableCell>
-                            <TableCell sx={{ width: '50px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '40px', textAlign: 'center' }}>
                                 <p>{row.canceledAt}</p>
                             </TableCell>
-                            <TableCell sx={{ width: '50px', textAlign: 'center' }}>
+                            <TableCell sx={{ width: '60px', textAlign: 'center' }}>
                                 <p>{row.cancelReason}</p>
                             </TableCell>
                             <TableCell sx={{ width: '50px', textAlign: 'center' }}>
                             {row.payStatus === "취소중" ? (
-                                    <button onClick={() => handleCancelOk(row)}>처리</button>
-                                ) : (
-                                    '처리완료'
-                                )}
+                                <button onClick={() => handleCancelOk(row)}>처리</button>
+                            ) : row.payStatus === "취소완료" ? (
+                                '처리완료'
+                            ) : null}
                             </TableCell>
-                            
                         </TableRow>
                     ))}
                     {emptyRows > 0 && (

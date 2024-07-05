@@ -14,10 +14,12 @@
     text-align: center;
     margin: 20px;
 }
-.ellipsis-cell {
-    width: 311px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: center;
-  }
+
+button {
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: blue;
+    font-weight: bold;
+}
