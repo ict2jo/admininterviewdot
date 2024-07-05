@@ -16,6 +16,9 @@ export default function SuccessList() {
     const [page, setPage] = useState(1); // 현재 페이지 상태 추가
     const [totalPages, setTotalPages] = useState(""); // 전체 페이지 수 상태 추가
     const successPerPage = 9; // 한 페이지당 보일 후기 개수
+    const [comments, setComments] = useState([]);
+    const [commentContent, setCommentContent] = useState("");
+
     const router = useRouter();
 
     useEffect(() => {
@@ -52,9 +55,39 @@ export default function SuccessList() {
     }, []);
 
 
+    const fetchComments = async (s_idx) => {
+        try {
+            const response = await axios.get(`http://localhost:8090/commentsucc/comment?s_idx=${s_idx}`);
+            setComments(response.data);
+            console.log("왜 안들어가지니", response.date);
+        } catch (error) {
+            console.error("댓글을 불러오는 중 오류 발생:", error);
+            setComments([]);
+        }
+    };
+
+    const handleDeleteComment = async (su_idx) => {
+        try {
+            const response = await axios.post("http://localhost:8090/commentsucc/deletecomment", {
+                su_idx: su_idx,
+            })
+            console.log("Comment deleted : ", response.data);
+
+            await fetchComments(selectedSuccess.s_idx);
+
+            /* handleCloseDialog(); */
+        } catch (error) {
+            console.error("Error deleting comment : ", error);
+        }
+    };
+
     const handleSuccessClick = (success) => {
         setSelectedSuccess(success);
         setOpenDialog(true);
+    };
+
+    const handleCommentChange = (event) => {
+        setCommentContent(event.target.value); // 댓글 내용 업데이트
     };
 
     useEffect(() => {
@@ -83,6 +116,7 @@ export default function SuccessList() {
     const handleCloseDialog = () => {
         setOpenDialog(false);
         setSelectedSuccess(null); // 선택된 후기 초기화
+        setCommentContent(""); // 댓글 내용 초기화
     };
 
 
