@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { MenuContext } from '@/stores/StoreContext';
 import './Reviewlist.css';
+import { blue } from "@mui/material/colors";
 
 export default function ReviewList() {
     const menuStore = useContext(MenuContext);
@@ -144,17 +145,17 @@ export default function ReviewList() {
                         </Box>
                     </div>
             </Container>
-            <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle>면접 후기 상세 정보 및 댓글</DialogTitle>
-                <DialogContent>
+            <Dialog open={openDialog} onClose={handleCloseDialog} className="reviewdetail">
+                <DialogTitle sx={{width: "400px", height: "60px", borderBottom: "3px solid blue"}}>면접 후기 상세 정보 및 댓글</DialogTitle>
+                <DialogContent sx={{width: "300px", marginTop: "10px"}}>
                     {selectedReview && (
                         <>
-                            <Typography variant="h6">제목: {selectedReview.r_title}</Typography>
-                            <Typography>작성자: {selectedReview.r_id}</Typography>
-                            <Typography>내용: {selectedReview.r_content}</Typography>
+                            <Typography variant="h6" sx={{color:"blue"}}>제목: {selectedReview.r_title}</Typography>
+                            <Typography sx={{ marginBottom:"5px"}}>작성자: {selectedReview.r_id}</Typography>
+                            <Typography sx={{marginTop:"5px", fontSize:"13px"}}>회사: {selectedReview.r_company}</Typography>
+                            <Typography sx={{marginTop:"5px", fontSize:"13px", color:"gray"}}>작성일: {selectedReview.r_regdate}</Typography>
+                            <Typography sx={{marginTop:"15px"}}>내용: {selectedReview.r_content}</Typography>
                             
-                            <Typography>회사: {selectedReview.r_company}</Typography>
-                            <Typography>작성일: {selectedReview.r_regdate}</Typography>
                         </>
                     )}
                 </DialogContent>
