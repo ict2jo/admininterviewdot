@@ -16,7 +16,7 @@ import { observer } from 'mobx-react-lite';
 const Userlist = observer(() => {
     const menuStore = useContext(MenuContext);
     const [page, setPage] = useState(1); // Current page state
-    const [rowsPerPage] = useState(5); // Rows per page (fixed)
+    const [rowsPerPage] = useState(3); // Rows per page (fixed)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,7 +68,7 @@ const handleliveClick = async (u_idx) => {
         }).then(response1 => {
             console.log("사용자 복구 성공했습니다.", response1.data);
             alert("사용자 복구 완료했습니다.");
-            //location.reload();
+            location.reload();
             })
             .catch(error => {
             console.error("사용자 복구 요청 중 오류가 발생했습니다.", error);
@@ -89,7 +89,7 @@ const handleliveClick = async (u_idx) => {
                 </TableHead>
                 <TableBody>
                     {displayedRows.map((row, index) => (
-                        <TableRow key={row.u_idx} onClick={() => handleMenuClick(`userdetail/${row.u_idx}`)}>
+                        <TableRow key={row.u_idx}>
                             <TableCell sx={{ width: '50px', textAlign: 'center' }}>{calculateIndex(page, index)}</TableCell>
                             <TableCell sx={{ width: '100px', textAlign: 'center' }}>
                                 <p>{row.name}</p>
@@ -102,11 +102,11 @@ const handleliveClick = async (u_idx) => {
                             </TableCell>
                             <TableCell sx={{ width: '200px', textAlign: 'center' }}>
                             {row.active === '0' ? (
-                                <Button variant='contained' onClick={() => handlestopClick(row.u_idx)}>회원정지</Button>
+                                <Button variant='outlined' onClick={() => handlestopClick(row.u_idx)}>회원정지</Button>
                                 ) : (
                                 <Button variant='outlined' onClick={() => handleliveClick(row.u_idx)}>회원복구</Button>
                                 )}
-
+                            <Button variant='contained' onClick={() => handleMenuClick(`userdetail/${row.u_idx}`)}>회원수정</Button>
                             </TableCell>
                         </TableRow>
                     ))}

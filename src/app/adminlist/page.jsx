@@ -53,24 +53,24 @@ const AdminList = observer(() => {
             const response = await axios.post('/admin/admindelete', null, {
                 params: { a_idx }
             }).then(response => {
-                console.log("사용자 정지 요청이 성공했습니다.", response.data);
-                alert("사용자 정지 완료했습니다.");
+                console.log("관리자 정지 요청이 성공했습니다.", response.data);
+                alert("관리자 정지 완료했습니다.");
                 location.reload();
                 })
                 .catch(error => {
-                console.error("사용자 정지 요청 중 오류가 발생했습니다.", error);
+                console.error("관리자 정지 요청 중 오류가 발생했습니다.", error);
                 });
             }
     const handleAdminLive = async (a_idx) => {
             const response = await axios.post('/admin/adminlive', null, {
                 params: { a_idx }
             }).then(response => {
-                console.log("사용자 복구 성공했습니다.", response.data);
-                alert("사용자 복구 완료했습니다.");
+                console.log("관리자 복구 성공했습니다.", response.data);
+                alert("관리자 복구 완료했습니다.");
                 location.reload();
                 })
                 .catch(error => {
-                console.error("사용자 복구 요청 중 오류가 발생했습니다.", error);
+                console.error("관리자 복구 요청 중 오류가 발생했습니다.", error);
                 });
             }
     return (
