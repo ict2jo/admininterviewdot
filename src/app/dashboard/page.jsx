@@ -77,8 +77,6 @@ const Dashboard = observer(() => {
         salesByDate[date]['총매출액'] = salesByDate[date]['결제완료'] - salesByDate[date]['취소완료'];
     }
 
-
-
     // 합산된 데이터를 막대차트 형식으로 변환
     const chartData = Object.keys(salesByDate).map(date => ({
         date,
@@ -86,7 +84,6 @@ const Dashboard = observer(() => {
         '취소완료': salesByDate[date]['취소완료'],
         '총매출액': salesByDate[date]['총매출액']
     }));
-
 
     // 날짜를 기준으로 오름차순 정렬
     chartData.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -119,22 +116,22 @@ const Dashboard = observer(() => {
     
     // 파이차트
     const [pieChartData, setPieChartData] = useState([]);
-
+        
     useEffect(() => {
         const fetchPieData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8090/payments/userList`);
                 const data = response.data;
                 console.log(data);
-
+                
                 const activeCount = data.filter(item => +item.active === 0).length; // 숫자로 변환
                 const inactiveCount = data.filter(item => +item.active === 1).length;
-
+                
                 const formattedData = [
                     { value: activeCount, label: '활성 회원' },
-                    { value: inactiveCount, label: '탈퇴 회원' },
+                    { value: inactiveCount, label: '정지 회원' },
                 ];
-
+                
                 setPieChartData(formattedData);
             } catch (error) {
                 console.error('데이터를 가져오는 중 오류가 발생하였습니다.', error);
@@ -156,17 +153,16 @@ const Dashboard = observer(() => {
             try {
                 const response = await axios.get(`http://localhost:8090/payments/interviewList`);
                 const data = response.data;
-                console.log(data)
-
+                
                 // 서버에서 받은 데이터를 날짜별로 합산하여 막대차트 데이터 생성
                 const aggregatedData2 = dataByDate2(data, 7);
                 setLineChartData(aggregatedData2);
-
+                
             } catch (error) {
                 console.error('데이터를 가져오는 중 오류가 발생하였습니다.', error);
             }
         };
-
+        
         fetchLineData();
     }, []);
 
@@ -174,7 +170,7 @@ const Dashboard = observer(() => {
         const today = new Date(); 
         const cutoffDate = new Date(today);
         cutoffDate.setDate(today.getDate() - days + 1);
-    
+        
         // 최근 7일의 날짜 배열 생성
         const dates = [];
         for (let i = 0; i < days; i++) {
@@ -182,32 +178,32 @@ const Dashboard = observer(() => {
             date.setDate(cutoffDate.getDate() + i);
             dates.push(date.toISOString().split('T')[0]);
         }
-    
+        
         // 날짜별 데이터 초기화
         const aggregatedData = dates.map(date => ({
             date,
             count: 0
         }));
-
+        
         // 서버에서 받아온 데이터를 날짜별로 합산
-    data.forEach(entry => {
+        data.forEach(entry => {
         const date = entry.interview_date.split(' ')[0];
         const found = aggregatedData.find(d => d.date === date);
         if (found) {
             found.count += entry.count;
         }
-    });
+        });
+        
+        return aggregatedData;
+    };
 
-    return aggregatedData;
-};
-
-// 날짜를 월.일 형식으로 포맷하는 함수
-const formatXAxisDate = (dateStr) => {
-    const date = new Date(dateStr);
-    const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1 해줌
-    const day = date.getDate();
-    return `${month}.${day}`;
-};
+    // 날짜를 월.일 형식으로 포맷하는 함수
+    const formatXAxisDate = (dateStr) => {
+        const date = new Date(dateStr);
+        const month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 +1 해줌
+        const day = date.getDate();
+        return `${month}.${day}`;
+    };
 
     return (
         <>
@@ -242,7 +238,7 @@ const formatXAxisDate = (dateStr) => {
                                 payload={[
                                     { value: 'AI 면접 이용횟수', type: 'line', id: 'ID01', color: '#4285f4' }
                                 ]}
-                                wrapperStyle={{ fontSize: '12px' }} // Legend 전체의 스타일을 변경
+                                wrapperStyle={{ fontSize: '12px' }} 
                             />
                             <Line 
                                 type="monotone" 
