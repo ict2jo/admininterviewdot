@@ -7,8 +7,6 @@ import { MenuContext } from '@/stores/StoreContext';
 import { observer } from 'mobx-react-lite';
 import { useRouter, useSearchParams } from 'next/navigation';
 import './Userdetail.css';
-import Mail from '@/app/inquiry/mail/page';
-import Nav from '@/app/Nav/page';
 import authStore from '@/stores/AuthStore';
 
 const Reportdetail = observer(({rep_idx}) => {
@@ -18,7 +16,7 @@ const Reportdetail = observer(({rep_idx}) => {
   const [loading, setLoading] = useState(true);
   const [rvo, setRvo] = useState({
     rep_idx: rep_idx,
-    a_id: authStore.a_id,
+    a_id: authStore.adminInfo.a_id,
     u_idx: '',
     u2_idx: '',
     rep_okdate: '',
@@ -34,12 +32,30 @@ const Reportdetail = observer(({rep_idx}) => {
     active: '',
     u_report: ''
   });
+  const a_id = authStore.adminInfo.a_id;
   const API_URL = `/report/reportdetail?rep_idx=${rep_idx}`;
-  
+  const handleReportClick = () => {
+    const updatedRvo = { ...rvo, a_id: authStore.adminInfo.a_id };
+    
+    console.log("Handling report click with rvo: ", rvo);
+    axios.post('/report/reportclick',rvo)
+      .then(response => {
+        console.log("사용자 정지 요청이 성공했습니다.", rvo.a_id);
+        alert("사용자 정지 완료했습니다.");
+        fetchData(); // 데이터 다시 불러오기
+      })
+      .catch(error => {
+        console.error("사용자 정지 요청 중 오류가 발생했습니다.", error);
+      });
+  };
   const fetchData = async () => {
     try {
       const { data } = await axios.get(API_URL);
-      setRvo(data[0]);
+      const fetchedData = data[0];
+      setRvo({
+        ...fetchedData,
+        a_id: authStore.adminInfo.a_id
+    });
       console.log(data[0]);
     } catch (error) {
       alert("데이터를 가져오는 데 실패했습니다.");
@@ -48,9 +64,13 @@ const Reportdetail = observer(({rep_idx}) => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    console.log("1rvo updated: ", rvo);
+  }, [rvo]);
 
   useEffect(() => {
     fetchData();
+    console.log(rvo.a_id)
   }, [rep_idx]);
 
   const handleMenuClick = (menu) => {
@@ -58,17 +78,7 @@ const Reportdetail = observer(({rep_idx}) => {
     router.push("/adminmain");
   };
 
-  const handleReportClick = () => {
-    axios.post('/report/reportclick', rvo)
-      .then(response => {
-        console.log("사용자 정지 요청이 성공했습니다.", response.data);
-        alert("사용자 정지 완료했습니다.");
-        fetchData(); // 데이터 다시 불러오기
-      })
-      .catch(error => {
-        console.error("사용자 정지 요청 중 오류가 발생했습니다.", error);
-      });
-  };
+  
   
   const renderContent = () => {
     if (loading) {

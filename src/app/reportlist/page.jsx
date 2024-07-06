@@ -97,14 +97,14 @@ const Reportlist = observer(() => {
             ))}
             {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={4} />
+                <TableCell colSpan={12} />
                 </TableRow>
             )}
             </TableBody>
             {/* Pagination */}
             <TableFooter>
             <TableRow>
-                <TableCell colSpan={4} align="center" sx={{ border: 0 }}>
+                <TableCell colSpan={12} align="center" sx={{ border: 0 }}>
                 <Pagination
                     count={pageCount} // Total pages
                     page={page} // Current page index (1-based)
