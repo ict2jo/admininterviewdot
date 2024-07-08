@@ -6,7 +6,7 @@ class MenuStore{
     localStorage.getItem("selectedMenu") || "main"
     ;  // 선택된 메뉴
     reportlist = [] ;             // 서버에서 가져온 
-    reviewlist = [] ;
+    // reviewlist = [] ;
     adminList = [] ;
     queryList = [] ;
     userList = [] ;
