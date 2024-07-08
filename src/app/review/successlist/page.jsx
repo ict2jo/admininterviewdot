@@ -1,7 +1,6 @@
 "use client"
 
-import authStore from "@/stores/AuthStore";
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Pagination, Table, TableBody, TableCell,  TableHead, TableRow, Typography } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
@@ -51,7 +50,7 @@ export default function SuccessList() {
                 console.error("합격 후기 데이터를 불러오는 중 오류 발생: ", error);
             }
         }
-        fetchSuccessList()
+        fetchSuccessList();
     }, []);
 
     useEffect(() => {
@@ -61,6 +60,7 @@ export default function SuccessList() {
     const handleSuccessClick = (success) => {
         setSelectedSuccess(success);
         setOpenDialog(true);
+        fetchComments(success.s_idx);
     };
 
     useEffect(() => {
@@ -115,12 +115,6 @@ export default function SuccessList() {
         setCommentContent(event.target.value); // 댓글 내용 업데이트
     };
 
-
-
-
-
-
-
     const handleCloseDialog = () => {
         setOpenDialog(false);
         setSelectedSuccess(null); // 선택된 후기 초기화
@@ -160,17 +154,15 @@ export default function SuccessList() {
 
                                     }
                                 }}
-                                style={{ cursor: success.active === '1' ? 'default' : 'pointer' }}
+                                style={{ cursor: success.active === '1' ? 'default' : 'pointer',
+                                        backgroundColor: success.active === '1' ? '#f5f5f5' : 'pointer',
+                                 }}
                             >
                                 <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_idx}</TableCell>
                                 <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_id}</TableCell>
                                 <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_title}</TableCell>
                                 <TableCell colSpan={1} sx={{ textAlign: 'center' }}>
-                                    {success.active === '1' ? (
-                                        <span style={{ color: 'red', marginLeft: '10px', width: '300px' }}>삭제된 게시물입니다.</span>
-                                    ) : (
-                                        success.s_content
-                                    )}
+                                    {success.s_content}
                                 </TableCell>
                                 <TableCell sx={{ width: '100px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_company}</TableCell>
                                 <TableCell sx={{ width: '200px', textAlign: 'center' }}>{success.active === '1' ? '' : success.s_regdate.substring(0, 10)}</TableCell>
@@ -243,5 +235,5 @@ export default function SuccessList() {
                 </DialogActions>
             </Dialog>
         </>
-    )
+    );
 }
