@@ -19,6 +19,7 @@ import Paylist from "../adminPaylist/page";
 import Dashboard from "../dashboard/page";
 import ReviewList from "../review/reviewList/page";
 import Userlist from "../userlist/page";
+import Userdetail from "../userlist/userdetail/page";
 
 function AdminMain() {
     const router = useRouter();
@@ -51,6 +52,10 @@ function AdminMain() {
             const a_idx = menuStore.selectedMenu.split('/')[1];
             console.log(a_idx);
             return <Adminedit a_idx={a_idx} />;
+        }
+        if (menuStore.selectedMenu.startsWith(`userdetail/`)) {
+            const u_idx = menuStore.selectedMenu.split('/')[1];
+            return <Userdetail u_idx={u_idx} />;
         }
         if (menuStore.selectedMenu.startsWith(`reportdetail/`)) {
             const rep_idx = menuStore.selectedMenu.split('/')[1];
