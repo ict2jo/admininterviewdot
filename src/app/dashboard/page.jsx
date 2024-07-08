@@ -16,7 +16,7 @@ const Dashboard = observer(() => {
     useEffect(() => {
     const fetchData = async () => {
         try {
-        const response = await axios.get(`http://192.168.0.53:8090/payments/payList`);
+        const response = await axios.get(`http://localhost:8090/payments/payList`);
         const data = response.data;
         console.log(data);
         // 서버에서 받은 데이터를 날짜별로 합산하여 막대차트 데이터 생성
@@ -119,7 +119,7 @@ const Dashboard = observer(() => {
     useEffect(() => {
         const fetchPieData = async () => {
             try {
-                const response = await axios.get(`http://192.168.0.53:8090/payments/userList`);
+                const response = await axios.get(`http://localhost:8090/payments/userList`);
                 const data = response.data;
                 console.log(data);
                 
@@ -150,7 +150,7 @@ const Dashboard = observer(() => {
     useEffect(() => {
         const fetchLineData = async () => {
             try {
-                const response = await axios.get(`http://192.168.0.53:8090/payments/interviewList`);
+                const response = await axios.get(`http://localhost:8090/payments/interviewList`);
                 const data = response.data;
                 
                 // 서버에서 받은 데이터를 날짜별로 합산하여 막대차트 데이터 생성
