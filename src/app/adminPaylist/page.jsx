@@ -25,7 +25,7 @@ const Paylist = observer(() => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8090/payments/payList`);
+            const response = await axios.get(`http://192.168.0.53:8090/payments/payList`);
             const data = response.data;
             console.log(data);
             menuStore.setPayList(data);
@@ -59,7 +59,7 @@ const Paylist = observer(() => {
         const { t_idx, paymentKey, cancelReason } = modalData;
         try {
             const response = await axios.post(
-                `http://localhost:8090/payments/cancel`,
+                `http://192.168.0.53:8090/payments/cancel`,
                 {
                     t_idx,
                     paymentKey,
